@@ -1,0 +1,41 @@
+.home-card {
+    max-width: 614px;
+    box-sizing: content-box;
+    margin-bottom: 50px;
+    background-color: #fff;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    box-shadow: 0 1px 1px 0px rgba(100, 100, 100, 0.2),
+                0 1px 2px 0px rgba(100, 100, 100, 0.1),
+                0 1px 5px 1px rgba(100, 100, 100, 0.1) 
+    ;
+}
+
+.card-image img {
+    width: 100%;
+    max-height: 75vh;
+    object-fit: cover;
+}
+
+.fa-heart {
+    font-size: 20px;
+}
+
+.home {
+    position: relative;
+    width: 100%;
+    padding-top: 80px;
+}
+
+.quang-cao {
+    position: absolute;
+    top: 80px;
+    left: 650px;
+}
+
+.fixed {
+    position: fixed;
+    width: 293px;
+    height: 90vh;
+    border: 1px solid red;
+}
