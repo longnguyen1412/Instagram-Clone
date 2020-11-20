@@ -1,37 +1,25 @@
 .card-login {
     padding: 30px;
-    margin: 28% auto 0;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
     text-align: center;
     width: 400px;
+    box-sizing: border-box;
     box-shadow: 0 0 5px 3px rgba(200, 200, 200, 1);
 }
 
 .card-login input {
-    padding: 4px 10px;
-    margin-top: 30px;
-    border-top: 0;
-    border-right: 0;
-    border-left: 0;
-    border-bottom: 1px solid #999999;
-}
-
-.card-login input:focus {
-    border-bottom:1px solid#11a8ff;
-    box-shadow: 0 1px 0 0 #11a8ff;
-    outline: none;
+    padding: 0 10px !important;
+    width: 100% !important;
+    box-sizing: border-box !important;
 }
 
 .btn-login {
-    width: 70%;
+    width: 60%;
     margin: 40px auto 0;
     color: white;
     font-size: 100%;
     font-weight: 600;
-    background-color: #48aee9;
-    transition: all ease 0.5s;
-}
-
-.btn-login:hover {
-    background-color: #11a8ff;
-    color: white;
 }

@@ -20,7 +20,7 @@ router.get('/protected', middlewareLogin, (req, res) => {
 router.post('/signup', (req, res) => {
     const {name, email, password} = req.body
     if(!email || !password || !name) {
-        return res.json({error: "please add all the fields"})
+        return res.status(422).json({error: "please add all the fields"})
     }
     User.findOne({email: email})
         .then(savedUser => {

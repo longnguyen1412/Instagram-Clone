@@ -3,10 +3,10 @@ import {Link} from 'react-router-dom'
 
 const NavBar = () => {
     return (
-        <nav className="white">
-            <div class="nav-wrapper container-ig">
+        <nav className="white navbar">
+            <div className="nav-wrapper container-ig">
                 <Link className="brand-logo" to="/">Instagram</Link>
-                <ul id="nav-mobile" class="right hide-on-med-and-down">
+                <ul id="nav-mobile" className="right hide-on-med-and-down">
                     <li>
                         <Link to="/">Home <span className="sr-only">(current)</span></Link>
                     </li>

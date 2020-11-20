@@ -3,16 +3,16 @@ import '../screens_css/CreatePost.css'
 
 const CreatePost = () => {
     return (
-        <div className="card create-post">
+        <div className="card input-filed">
             <input className="create-input" type="text" placeholder="title" />
             <input className="create-input" type="text" placeholder="body" />
-            <div class="input-group mb-3">
-                <div class="input-group-prepend">
-                    <span class="input-group-text" id="inputGroupFileAddon01">Upload</span>
+            <div className="file-field input-field">
+                <div className="btn">
+                    <span>File</span>
+                    <input type="file" />
                 </div>
-                <div class="custom-file">
-                    <input type="file" class="custom-file-input" id="inputGroupFile01" aria-describedby="inputGroupFileAddon01" />
-                    <label class="custom-file-label" for="inputGroupFile01">Choose file</label>
+                <div className="file-path-wrapper">
+                    <input className="file-path validate" />
                 </div>
             </div>
 

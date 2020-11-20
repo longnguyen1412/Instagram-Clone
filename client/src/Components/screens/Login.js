@@ -14,7 +14,7 @@ const Login = () => {
                 type="password"
                 placeholder="Password"
             />
-            <button className="btn btn-login">Login</button>
+            <button className="btn waves-effect waves-light #64b5f6 blue lighten-2 btn-login">Login</button>
             <div className="gach-ngang"></div>
             <Link to="/signup">Bạn chưa có tài khoản?</Link>
         </div>
