@@ -6,13 +6,14 @@ const router = express.Router()
 const Post = mongoose.model("Post")
 
 router.post('/createPost', middlewareLogin, (req, res) => {
-    const {title, body} = req.body
-    if(!title || !body) {
-        return res.status(422).json({err: "Please add all the fields"})
+    const {title, body, url} = req.body
+    if(!title || !body || !url) {
+        return res.status(422).json({error: "Please add all the fields"})
     }
     const post = new Post({
         title,
         body,
+        photoUrl: url,
         postedBy: req.user.id
     })
 

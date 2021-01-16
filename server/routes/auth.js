@@ -7,7 +7,7 @@ const {JWT_SECRET} = require('../keys')
 const middlewareLogin = require('../middleware/requireLogin')
 
 const User = mongoose.model("User")
-const router = express.Router();
+const router = express.Router()
 
 router.get('/', (req, res) => {
     res.send("Say hello")
@@ -52,25 +52,26 @@ router.post('/signup', (req, res) => {
         })
 })
 
-router.post('/signin', (req, res) => {
+router.post('/login', (req, res) => {
     const {email, password} = req.body
     if(!email || !password) {
-        return res.status(422).json({err: "Please add email or password"})
+        return res.status(422).json({error: "Please add email or password"})
     }
     User.findOne({email: email})
         .then(saveUser => {
             if(!saveUser) {
-                return res.status(422).json({err: "Invalid Email or Password"})
+                return res.status(422).json({error: "Invalid Email or Password"})
             }
             bcrypt.compare(password, saveUser.password)
                 .then(doMatch => {
                     if(doMatch) {
                         //return res.json({message: "Successfully signed in"})
                         const token = jwt.sign({_id: saveUser._id}, JWT_SECRET)
-                        return res.json({token})
+                        const {_id, name, email} = saveUser
+                        return res.json({token, user: {_id, name, email}})
                     }
                     else {
-                        return res.status(422).json({err: "Invalid Email or Password"})
+                        return res.status(422).json({error: "Invalid Email or Password"})
                     }
                 })
                 .catch(err => {

@@ -1,14 +1,20 @@
-import React, { useState } from 'react'
+import React, {useState} from 'react'
 import '../screens_css/Signup.css'
-import {Link} from 'react-router-dom'
+import {Link, useHistory} from 'react-router-dom'
 import M from 'materialize-css'
 
 const Signup = () => {
+    const history = useHistory();
     const [name, setName] = useState("")
     const [password, setPassword] = useState("")
     const [email, setEmail] = useState("")
 
     const postData = () => {
+        var re = /^[\w-.]+@([\w-]+\.)+[\w-]{2,4}$/
+        if(re.test(email) === false) {
+            M.toast({html: "Invalid email", classes: "#c62828 red darken-3"})
+            return;
+        }
         fetch("/signup", {
             method: "post",
             headers: {
@@ -22,7 +28,11 @@ const Signup = () => {
         }).then(res => res.json())
         .then(data => {
             if(data.error) {
-                M.toast({html: data.error})
+                M.toast({html: data.error, classes: "#c62828 red darken-3"})
+            }
+            else {
+                M.toast({html: data.message, classes: "#43a047 green darken-1"})
+                history.push('/login')
             }
         })
     }

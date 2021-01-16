@@ -24,7 +24,7 @@ require('./models/user')
 require('./models/post')
 
 app.use(cors())
-app.use(express.json())
+app.use(express.json())     // giúp đọc dữ liệu trong req.body
 
 app.use(require('./routes/auth'))
 app.use(require('./routes/post'))

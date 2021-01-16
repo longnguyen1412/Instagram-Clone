@@ -12,7 +12,7 @@ function App() {
   return (
     <BrowserRouter>
       <NavBar />
-      <div className="container-ig">
+      <div className="container-ig mt-54">
         <Route exact path="/">
           <Home />
         </Route>

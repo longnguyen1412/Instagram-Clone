@@ -1,6 +1,7 @@
 .home-card {
     max-width: 614px;
     box-sizing: content-box;
+    margin-top: 0;
     margin-bottom: 50px;
     background-color: #fff;
     border: 1px solid #ccc;
@@ -24,18 +25,18 @@
 .home {
     position: relative;
     width: 100%;
-    padding-top: 80px;
+    padding-top: 20px;
 }
 
 .quang-cao {
     position: absolute;
-    top: 80px;
+    top: 20px;
     left: 650px;
 }
 
 .fixed {
     position: fixed;
-    width: 293px;
+    width: 286px;
     height: 90vh;
     border: 1px solid red;
 }
