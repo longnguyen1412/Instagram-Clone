@@ -12,14 +12,40 @@
     ;
 }
 
+.card-image .iconHeart {
+    font-size: 90px;
+    color: rgb(255, 255, 255) !important;
+    opacity: 0.85;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    display: none;
+}
+
+.card-image .iconHeart.effect1 {
+    animation: effect-scale1 1.5s ease-in-out forwards;
+}
+
+/* .card-image .iconHeart.effect2 {
+    animation: effect-scale2 1s ease-in-out forwards;
+} */
+
 .card-image img {
     width: 100%;
-    max-height: 75vh;
+    max-height: 90vh;
     object-fit: cover;
 }
 
-.fa-heart {
-    font-size: 20px;
+.card-content {
+    padding: 5px 15px !important;
+}
+
+.fas.fa-heart {
+    color: #ed4956;
+}
+
+.fa-heart.ani-scale1, .fa-heart.ani-scale2 {
+    animation: effect-scale 1s ease;
 }
 
 .home {
@@ -28,15 +54,61 @@
     padding-top: 20px;
 }
 
-.quang-cao {
-    position: absolute;
-    top: 20px;
-    left: 650px;
+.listIcon {
+    font-size: 24px;
+    padding: 3px 8px 0 8px;
+    position: relative;
 }
 
-.fixed {
-    position: fixed;
-    width: 286px;
-    height: 90vh;
-    border: 1px solid red;
+.listIcon i {
+    margin: 0 8px;
+}
+
+.listIcon i:hover {
+    cursor: pointer;
+}
+
+.listIcon i:last-child {
+    position: absolute;
+    right: 0px;
+    margin-top: 6px;
+}
+
+.countLike {
+    padding: 0 15px;
+    font-weight: 500;
+}
+
+@keyframes effect-scale {
+    50% {
+        transform: scale(1.4, 1.4);
+        opacity: 0.7;
+    }
+    95% {
+        transform: scale(0.01, 0.01);
+        opacity: 0;
+    }
+    100% {
+        transform: scale(1, 1);
+        opacity: 1;
+    }
+}
+
+@keyframes effect-scale1 {
+    0% {
+        transform: scale(0.001, 0.001);
+        opacity: 0;
+    }
+    20% {
+        transform: scale(1, 1);
+        opacity: 0.85;
+    }
+    80% {
+        transform: scale(1, 1);
+        opacity: 0.85;
+    }
+    100% {
+        transform: scale(0.001, 0.001);
+        opacity: 0;
+    }
 }

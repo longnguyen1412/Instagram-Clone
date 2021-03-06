@@ -9,7 +9,8 @@ const {MONGOURI} = require('./keys')
 
 mongoose.connect(MONGOURI, {
     useNewUrlParser: true,
-    useUnifiedTopology: true
+    useUnifiedTopology: true,
+    useFindAndModify: false
 })
 
 mongoose.connection.on('connected', () => {
@@ -23,7 +24,7 @@ mongoose.connection.on('error', (err) => {
 require('./models/user')
 require('./models/post')
 
-app.use(cors())
+app.use(cors())             // cho phép truy cập chéo
 app.use(express.json())     // giúp đọc dữ liệu trong req.body
 
 app.use(require('./routes/auth'))

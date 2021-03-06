@@ -1,0 +1,135 @@
+.quang-cao {
+    position: absolute;
+    top: 20px;
+    left: 650px;
+}
+
+.fixed {
+    position: fixed;
+    width: 286px;
+    height: 90vh;
+}
+
+.personal-page {
+    display: flex;
+    align-items: center;
+    margin-bottom: 25px;
+}
+
+.personal-page .avatar {
+    width: 50px;
+    height: 50px;
+}
+
+.Ads .info {
+    font-size: 14px;
+    font-weight: 300;
+    line-height: 16px;
+    margin-left: 10px;
+}
+
+.Ads .khung {
+    margin-bottom: 25px;
+    padding-bottom: 15px;
+    border: 1px solid #dbdbdb;
+    border-radius: 5px;
+    background-color: #fff;
+}
+
+.khung .headerOfKhung {
+    display: flex;
+    justify-content: space-between;
+    font-size: 12px;
+    font-weight: bold;
+    padding: 10px 10px 15px 10px;
+}
+
+.khung .headerOfKhung div:nth-child(1) {
+    font-weight: 600;
+    font-size: 14px;
+    color: #555;
+}
+
+.avatar img {
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+}
+
+.tin .border-avatar {
+    width: 40px;
+    height: 40px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 50%;
+    background: linear-gradient(242deg, rgba(250, 6, 17, 1) 0%, rgba(252, 100, 12, 1) 30%, rgba(255, 241, 5, 1) 100%);
+    /* padding: 1px; */
+}
+
+.border-avatar .avatar {
+    width: 35px;
+    height: 35px;
+    border-radius: 50%;
+    /* border: 2.5px solid #fff; */
+    box-sizing: border-box;
+}
+
+.person .avatar {
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+}
+
+.person,
+.tin {
+    display: flex;
+    padding: 0 15px;
+    align-items: center;
+}
+
+.tin {
+    margin-bottom: 15px;
+}
+
+.info b {
+    font-weight: bold;
+    color: #3d3b3b;
+}
+
+.goiY {
+    display: flex;
+    margin-bottom: 15px;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.goiY .theoDoi {
+    font-size: 12.5px;
+    font-weight: 600;
+    margin-right: 15px;
+    color: #0095f6;
+}
+
+.gioiThieu {
+    font-size: 12.5px;
+    color: #c7c7c7;
+}
+
+.gioiThieu ul {
+    padding: 0;
+}
+
+.gioiThieu li {
+    display: inline-block;
+}
+
+.gioiThieu li::before {
+    content: "\2022";
+    margin-right: 3px;
+}
+
+.gioiThieu a {
+    text-decoration: none;
+    color: #999999;
+}

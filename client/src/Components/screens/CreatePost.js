@@ -1,4 +1,4 @@
-import React, {useState, useEffect} from 'react'
+import React, {useState} from 'react'
 import M from 'materialize-css'
 import {useHistory} from 'react-router-dom'
 import '../screens_css/CreatePost.css'
@@ -8,10 +8,9 @@ const CreatePost = () => {
     const [title, setTitle] = useState("")
     const [body, setBody] = useState("")
     const [image, setImage] = useState("")
-    const [url, setUrl] = useState("")
+    // const [url, setUrl] = useState("")
 
-    useEffect(() => {
-        console.log("onChange!")
+    const createPost = (url) => {
         if(url) {
             fetch("/createPost", {
                 method: "post",
@@ -31,7 +30,7 @@ const CreatePost = () => {
                 }
                 else {
                     console.log(data)
-                    M.toast({html: "Login success", classes: "#43a047 green darken-1"})
+                    M.toast({html: "Create post success!", classes: "#43a047 green darken-1"})
                     history.push('/')
                 }
             })
@@ -40,7 +39,7 @@ const CreatePost = () => {
             })
         }
         // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [url])
+    }
 
     const postDetails = () => {
         if(!title || !body || !image) {
@@ -60,7 +59,7 @@ const CreatePost = () => {
         })
         .then(res => res.json())
         .then(data => {
-            setUrl(data.url)
+            createPost(data.url)
         })
         .catch(err => {
             console.log(err)

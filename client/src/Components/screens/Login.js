@@ -1,10 +1,12 @@
-import React, {useState} from 'react'
+import React, {useState, useContext} from 'react'
 import '../screens_css/Login.css'
 import {Link, useHistory} from 'react-router-dom'
+import {UserContext} from '../../App'
 import M from 'materialize-css'
 
 const Login = () => {
-    const history = useHistory();
+    const {dispatch} = useContext(UserContext)
+    const history = useHistory()
     const [password, setPassword] = useState("")
     const [email, setEmail] = useState("")
 
@@ -34,6 +36,7 @@ const Login = () => {
                 M.toast({html: "Login success", classes: "#43a047 green darken-1"})
                 localStorage.setItem("jwt", data.token)
                 localStorage.setItem("user", JSON.stringify(data.user))
+                dispatch({type: "USER", payload: data.user})
                 history.push('/')
             }
         })
