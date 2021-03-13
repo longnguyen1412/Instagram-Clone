@@ -6,7 +6,7 @@ body {
 
 .navbar {
     position: fixed;
-    z-index: 100;
+    z-index: 10;
     height: 54px;
     line-height: 54px;
     top: 0;
@@ -14,10 +14,6 @@ body {
 
 .nav-wrapper li a {
     color: #000;
-}
-
-.nav-wrapper li:last-child a {
-    /* padding-right: 0 !important; */
 }
 
 .brand-logo {
@@ -47,4 +43,12 @@ body {
 
 .mt-54 {
     margin-top: 54px;
+}
+
+.none-even {
+    pointer-events: none;
+}
+
+h6 {
+    margin: 0;
 }

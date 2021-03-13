@@ -5,15 +5,17 @@ import {UserContext} from '../../App'
 import M from 'materialize-css'
 
 const Login = () => {
-    const {dispatch} = useContext(UserContext)
+    const {state, dispatch} = useContext(UserContext)
     const history = useHistory()
     const [password, setPassword] = useState("")
     const [email, setEmail] = useState("")
 
-    const postData = () => {
+    const postData = (e) => {
+        e.target.classList.add("none-even")
         var re = /^[\w-.]+@([\w-]+\.)+[\w-]{2,4}$/
         if(re.test(email) === false) {
             M.toast({html: "Invalid email", classes: "#c62828 red darken-3"})
+            e.target.classList.remove("none-even")
             return;
         }
 
@@ -31,6 +33,7 @@ const Login = () => {
         .then(data => {
             if(data.error) {
                 M.toast({html: data.error, classes: "#c62828 red darken-3"})
+                e.target.classList.remove("none-even")
             }
             else {
                 M.toast({html: "Login success", classes: "#43a047 green darken-1"})
@@ -40,6 +43,10 @@ const Login = () => {
                 history.push('/')
             }
         })
+    }
+
+    if(state) {
+        history.push("/")
     }
 
     return (

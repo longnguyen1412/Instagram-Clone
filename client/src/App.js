@@ -44,7 +44,8 @@ const Routing = () => {
 }
 
 function App() {
-  const [state, dispatch] = useReducer(reducer, initialState)
+  const user = JSON.parse(localStorage.getItem("user"))
+  const [state, dispatch] = useReducer(reducer, user || initialState)
   return (
     <UserContext.Provider value={{state, dispatch}}>
       <BrowserRouter>

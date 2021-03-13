@@ -1,9 +1,11 @@
-import React, {useState} from 'react'
+import React, {useState, useContext} from 'react'
 import '../screens_css/Signup.css'
 import {Link, useHistory} from 'react-router-dom'
 import M from 'materialize-css'
+import {UserContext} from '../../App'
 
 const Signup = () => {
+    const {state} = useContext(UserContext)
     const history = useHistory();
     const [name, setName] = useState("")
     const [password, setPassword] = useState("")
@@ -35,6 +37,10 @@ const Signup = () => {
                 history.push('/login')
             }
         })
+    }
+
+    if(state) {
+        history.push("/")
     }
 
     return (

@@ -13,7 +13,7 @@ const NavBar = () => {
                 <li className="nav-item" key="create">
                     <Link to="/create">Create Post</Link>
                 </li>,
-                <li>
+                <li className="nav-item" key="logout">
                     <Link to="/login" onClick={()=>{
                         localStorage.clear()
                         dispatch({type: "LOGOUT"})
