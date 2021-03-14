@@ -29,6 +29,7 @@ app.use(express.json())     // giúp đọc dữ liệu trong req.body
 
 app.use(require('./routes/auth'))
 app.use(require('./routes/post'))
+app.use(require('./routes/user'))
 
 app.listen(PORT, () => {
     console.log("Server is running on ", PORT)

@@ -43,7 +43,7 @@ router.get('/myPosts', middlewareLogin, (req, res) => {
     Post.find({ postedBy: id })
         .populate("postedBy", "_id name")
         .then(myPost => {
-            return res.json({ myPost })
+            return res.json(myPost)
         })
         .catch(err => {
             console.log(err)

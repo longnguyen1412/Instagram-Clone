@@ -133,7 +133,7 @@ const Home = () => {
             .then(res => res.json())
             .then(result => {
                 if(result.err) {
-                    M.toast(M.toast({html: result.error, classes: "#c62828 red darken-3"}))
+                    M.toast({html: result.error, classes: "#c62828 red darken-3"})
                 }else {
                     const newData = data.filter(post => post._id !== postId)
                     setData(newData)

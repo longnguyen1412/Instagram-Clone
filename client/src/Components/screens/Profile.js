@@ -1,10 +1,30 @@
-import React from 'react'
+import React, { useContext, useState, useEffect } from 'react'
 import '../screens_css/Profile.css'
+import { UserContext } from '../../App'
 
 const Profile = () => {
+    const [myPosts, setMyPosts] = useState([])
+    const { state } = useContext(UserContext)
+
+    useEffect(() => {
+        fetch('/myPosts', {
+            method: "get",
+            headers: {
+                "Authorization": "Bearer " + localStorage.getItem("jwt")
+            }
+        })
+            .then(res => res.json())
+            .then(result => {
+                setMyPosts(result)
+            })
+            .catch(err => {
+                console.log(err)
+            })
+    }, [])
+
     return (
         <div>
-            <div style={{display: "flex", justifyContent: "space-around", margin: "18px 0px", padding: "15px", borderBottom: "1px solid #ccc"}}>
+            <div style={{ display: "flex", justifyContent: "space-around", margin: "18px 0px", padding: "15px", borderBottom: "1px solid #ccc" }}>
                 <div className="khung-avatar" ef="/home">
                     <img
                         className="avatar"
@@ -13,7 +33,7 @@ const Profile = () => {
                     />
                 </div>
                 <div className="thong-tin">
-                    <h4>ramesh verma</h4>
+                    <h4>{state.name}</h4>
                     <div className="so-luong">
                         <h6>40 posts</h6>
                         <h6>40 followers</h6>
@@ -21,9 +41,15 @@ const Profile = () => {
                     </div>
                 </div>
             </div>
-            
+
             <div className="gallery">
-                <img className="item" src="https://i.pinimg.com/564x/27/24/3d/27243d318562205d299cb1af889c68ad.jpg" alt="load error" />
+                {
+                    myPosts.map(myPost => {
+                        return (
+                            <img className="item" src={myPost.photoUrl} alt="load error" />
+                        )
+                    })
+                }
                 <img className="item" src="https://i.pinimg.com/564x/09/d5/b6/09d5b6ef071e3ca9d0261ab4bc9d2a0c.jpg" alt="load error" />
                 <img className="item" src="https://i.pinimg.com/564x/0e/32/3c/0e323c1daaa7c4f980c27bda3adb8088.jpg" alt="load error" />
                 <img className="item" src="https://i.pinimg.com/564x/bc/a6/22/bca6228994bcb95bdcdc3a8506c301b5.jpg" alt="load error" />

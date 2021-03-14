@@ -6,6 +6,7 @@ import {createContext, useEffect, useReducer} from 'react';
 import NavBar from './Components/Navbar';
 import Home from './Components/screens/Home';
 import Profile from './Components/screens/Profile';
+import UserProfile from './Components/screens/UserProfile'
 import Signup from './Components/screens/Signup';
 import Login from './Components/screens/Login';
 import CreatePost from './Components/screens/CreatePost';
@@ -21,14 +22,17 @@ const Routing = () => {
       history.push('/login')
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  })
+  }, [])
   return(
     <Switch>
       <Route exact path="/">
           <Home />
         </Route>
-        <Route path="/profile">
+        <Route exact path="/profile">
           <Profile />
+        </Route>
+        <Route path="/profile/:id">
+          <UserProfile />
         </Route>
         <Route path="/create">
           <CreatePost />
