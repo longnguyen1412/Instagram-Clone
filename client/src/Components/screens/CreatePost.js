@@ -5,10 +5,8 @@ import '../screens_css/CreatePost.css'
 
 const CreatePost = () => {
     const history = useHistory()
-    const [title, setTitle] = useState("")
     const [body, setBody] = useState("")
     const [image, setImage] = useState("")
-    // const [url, setUrl] = useState("")
 
     const createPost = (url) => {
         if(url) {
@@ -19,7 +17,6 @@ const CreatePost = () => {
                     "Authorization": "Bearer " + localStorage.getItem("jwt")
                 },
                 body: JSON.stringify({
-                    title,
                     body,
                     url
                 })
@@ -42,7 +39,7 @@ const CreatePost = () => {
     }
 
     const postDetails = () => {
-        if(!title || !body || !image) {
+        if(!body || !image) {
             M.toast({html: "Please add all the fields!", classes: "#c62828 red darken-3"})
             return
         }
@@ -70,13 +67,7 @@ const CreatePost = () => {
         <div className="card input-filed">
             <input className="create-input"
                 type="text"
-                placeholder="title" 
-                value={title}
-                onChange={(e) => setTitle(e.target.value)}
-            />
-            <input className="create-input"
-                type="text"
-                placeholder="body" 
+                placeholder="Bạn đang nghĩ gì?!!" 
                 value={body}
                 onChange={(e) => setBody(e.target.value)}    
             />

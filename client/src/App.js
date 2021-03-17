@@ -1,7 +1,7 @@
 import './App.css';
 
-import {BrowserRouter, Route, Switch, useHistory} from 'react-router-dom';
-import {createContext, useEffect, useReducer} from 'react';
+import { BrowserRouter, Route, Switch, useHistory } from 'react-router-dom';
+import { createContext, useEffect, useReducer } from 'react';
 
 import NavBar from './Components/Navbar';
 import Home from './Components/screens/Home';
@@ -10,7 +10,7 @@ import UserProfile from './Components/screens/UserProfile'
 import Signup from './Components/screens/Signup';
 import Login from './Components/screens/Login';
 import CreatePost from './Components/screens/CreatePost';
-import {reducer, initialState} from './Reducers/userReducer';
+import { reducer, initialState } from './Reducers/userReducer';
 
 export const UserContext = createContext()
 
@@ -18,31 +18,32 @@ const Routing = () => {
   const history = useHistory()
   useEffect(() => {
     const user = JSON.parse(localStorage.getItem("user"))
-    if(!user) {
+    if (!user) {
       history.push('/login')
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
-  return(
+
+  return (
     <Switch>
       <Route exact path="/">
-          <Home />
-        </Route>
-        <Route exact path="/profile">
-          <Profile />
-        </Route>
-        <Route path="/profile/:id">
-          <UserProfile />
-        </Route>
-        <Route path="/create">
-          <CreatePost />
-        </Route>
-        <Route path="/signup">
-          <Signup />
-        </Route>
-        <Route path="/login">
-          <Login />
-        </Route>
+        <Home />
+      </Route>
+      <Route exact path="/profile">
+        <Profile />
+      </Route>
+      <Route path="/profile/:id">
+        <UserProfile />
+      </Route>
+      <Route path="/create">
+        <CreatePost />
+      </Route>
+      <Route path="/signup">
+        <Signup />
+      </Route>
+      <Route path="/login">
+        <Login />
+      </Route>
     </Switch>
   )
 }
@@ -51,7 +52,7 @@ function App() {
   const user = JSON.parse(localStorage.getItem("user"))
   const [state, dispatch] = useReducer(reducer, user || initialState)
   return (
-    <UserContext.Provider value={{state, dispatch}}>
+    <UserContext.Provider value={{ state, dispatch }}>
       <BrowserRouter>
         <NavBar />
         <div className="container-ig mt-54">

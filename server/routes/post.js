@@ -5,13 +5,12 @@ const middlewareLogin = require('../middleware/requireLogin')
 const router = express.Router()
 const Post = mongoose.model("Post")
 
-router.post('/createPost', middlewareLogin, (req, res) => {
-    const { title, body, url } = req.body
-    if (!title || !body || !url) {
+router.post('/createPost', middlewareLogin, (req, res) => {                 //Tạo mới một post và lưu vào database
+    const { body, url } = req.body
+    if (!body || !url) {
         return res.status(422).json({ error: "Please add all the fields" })
     }
     const post = new Post({
-        title,
         body,
         photoUrl: url,
         postedBy: req.user.id
@@ -19,38 +18,41 @@ router.post('/createPost', middlewareLogin, (req, res) => {
 
     post.save()
         .then(result => {
-            return res.json({ post: result })
+            return res.status(200).json({ post: result })
         })
         .catch(err => {
             console.log(err)
+            return res.status(422).json({error: err})
         })
 })
 
-router.get('/allPost', middlewareLogin, (req, res) => {
+router.get('/allPost', middlewareLogin, (req, res) => {         //Trả về tất cả các post trong database khi load trang home
     Post.find()
         .populate("postedBy", "_id name")
         .populate("comments.postedBy", "_id name")
         .then(posts => {
-            return res.json(posts)
+            return res.status(200).json(posts.reverse())
         })
         .catch(err => {
             console.log(err)
+            return res.status(422).json({error: err})
         })
 })
 
-router.get('/myPosts', middlewareLogin, (req, res) => {
+router.get('/myPosts', middlewareLogin, (req, res) => {     //Trả về mảng các post của user đang đăng nhập
     var id = req.user.id
     Post.find({ postedBy: id })
         .populate("postedBy", "_id name")
         .then(myPost => {
-            return res.json(myPost)
+            return res.status(200).json(myPost.reverse())
         })
         .catch(err => {
             console.log(err)
+            return res.status(422).json({error: err})
         })
 })
 
-router.put('/like', middlewareLogin, (req, res) => {
+router.put('/like', middlewareLogin, (req, res) => {        //like post: thêm id người dùng vào mảng likes của post
     Post.findById(req.body.postId)
         .populate("postedBy", "_id name")
         .populate("comments.postedBy", "_id name")
@@ -67,7 +69,7 @@ router.put('/like', middlewareLogin, (req, res) => {
                     .populate("comments.postedBy", "_id name")
                     .exec((err, result) => {
                         if (err) {
-                            return res.status(422).json({ error })
+                            return res.status(422).json({ error: err })
                         } else {
                             res.json(result)
                         }
@@ -76,7 +78,7 @@ router.put('/like', middlewareLogin, (req, res) => {
         })
 })
 
-router.put('/unlike', middlewareLogin, (req, res) => {
+router.put('/unlike', middlewareLogin, (req, res) => {              //Xoá id người dùng khỏi mảng likes của post
     Post.findByIdAndUpdate(req.body.postId, {
         $pull: { likes: req.user.id }
     }, {
@@ -86,14 +88,14 @@ router.put('/unlike', middlewareLogin, (req, res) => {
         .populate("comments.postedBy", "_id name")
         .exec((err, result) => {
             if (err) {
-                return res.status(422).json({ error })
+                return res.status(422).json({ error: err })
             } else {
                 res.json(result)
             }
         })
 })
 
-router.put('/comment', middlewareLogin, (req, res) => {
+router.put('/comment', middlewareLogin, (req, res) => {         //Thêm comment vào mảng comments của post
     const comment = {
         text: req.body.text,
         postedBy: req.user.id
@@ -108,14 +110,14 @@ router.put('/comment', middlewareLogin, (req, res) => {
         .populate("comments.postedBy", "_id name")
         .exec((err, result) => {
             if (err) {
-                return res.status(422).json({ error })
+                return res.status(422).json({ error: err })
             } else {
                 res.json(result)
             }
         })
 })
 
-router.delete('/deletepost/:postId', middlewareLogin, (req, res) => {
+router.delete('/deletepost/:postId', middlewareLogin, (req, res) => {           // Xoá 1 post
     Post.findOne({_id: req.params.postId})
         .populate("postedBy", "_id name")
         .exec((err, post) => {
@@ -125,7 +127,7 @@ router.delete('/deletepost/:postId', middlewareLogin, (req, res) => {
             if (!post) {
                 return res.status(422).json({ error: "post null!" })
             }
-            if (post.postedBy._id.toString() === req.user.id.toString()) {
+            if (post.postedBy._id.toString() === req.user.id.toString()) {      //Kiểm tra bài đăng có phải của user không, nếu đúng mới xoá
                 post.remove()
                     .then(result => {
                         return res.json({ message: "successfully deleted" })

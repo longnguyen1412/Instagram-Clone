@@ -50,12 +50,6 @@ const Profile = () => {
                         )
                     })
                 }
-                <img className="item" src="https://i.pinimg.com/564x/09/d5/b6/09d5b6ef071e3ca9d0261ab4bc9d2a0c.jpg" alt="load error" />
-                <img className="item" src="https://i.pinimg.com/564x/0e/32/3c/0e323c1daaa7c4f980c27bda3adb8088.jpg" alt="load error" />
-                <img className="item" src="https://i.pinimg.com/564x/bc/a6/22/bca6228994bcb95bdcdc3a8506c301b5.jpg" alt="load error" />
-                <img className="item" src="https://i.pinimg.com/564x/52/31/86/52318636bfa98df1df934b0e0d11e048.jpg" alt="load error" />
-                <img className="item" src="https://i.pinimg.com/564x/8c/90/ac/8c90aca624744b8c6a51db2973958c6d.jpg" alt="load error" />
-                <img className="item" src="https://i.pinimg.com/564x/ec/be/83/ecbe8352336ad252d30beecb0fd7e882.jpg" alt="load error" />
             </div>
         </div>
     )

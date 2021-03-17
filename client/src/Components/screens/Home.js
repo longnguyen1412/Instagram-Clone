@@ -6,6 +6,7 @@ import { UserContext } from '../../App'
 
 import Modal from "./Modal";
 import Ads from '../ads/Ads'
+import { Link } from 'react-router-dom';
 
 const Home = () => {
     const { state } = useContext(UserContext)
@@ -15,6 +16,9 @@ const Home = () => {
     const [idFocus, setIdFocus] = useState("")
 
     useEffect(() => {
+        // if(data) {
+        //     console.log(data)
+        // } 
         fetch('/allpost', {
             headers: {
                 "Authorization": "Bearer " + localStorage.getItem("jwt")
@@ -165,7 +169,11 @@ const Home = () => {
                         return (
                             <div className="card home-card" key={post._id}>
                                 <div className="nav-card">
-                                    <h5>{post.postedBy.name}</h5>
+                                    <h5>
+                                        <Link to={post.postedBy._id === userId ? "/profile" : "/profile/" + post.postedBy._id}>
+                                            {post.postedBy.name}
+                                        </Link>
+                                    </h5>
                                     <i className="fas fa-ellipsis-h" onClick={() => dotOnClick(post.postedBy._id, post._id)}></i>
                                 </div>
                                 <div className="card-image" onDoubleClick={() => ImageOnDoubleClick(post._id)}>
@@ -182,7 +190,7 @@ const Home = () => {
                                     {post.likes.length} lượt thích
                             </div>
                                 <div className="card-content">
-                                    <span className="postTitle">{post.title}</span>
+                                    <span className="userName">{post.postedBy.name} </span>
                                     <span className="postName">{post.body}</span>
                                     {
                                         post.comments.map((comment, index) => {

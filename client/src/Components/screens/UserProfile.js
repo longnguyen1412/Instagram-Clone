@@ -30,6 +30,26 @@ const Profile = () => {
             // eslint-disable-next-line
     }, [])
 
+    const followUser = () => {
+        fetch('/follow', {
+            method: "put",
+            headers: {
+                "Content-Type": "application/json",
+                "Authorization": "Bearer " + localStorage.getItem('jwt')
+            },
+            body: JSON.stringify({
+                followId: id
+            })
+        })
+            .then(res => res.json())
+            .then(user => {
+                console.log(user)
+                var newProfile = {...profile}
+                newProfile.user = user
+                setProfile(newProfile)
+            })
+    }
+
     return (
         <>
         {
@@ -44,11 +64,14 @@ const Profile = () => {
                         />
                     </div>
                     <div className="thong-tin">
-                        <h4>{profile.user.name}</h4>
+                        <div>
+                            <h4>{profile.user.name}</h4>
+                            <button onClick={followUser}>Follow</button>
+                        </div>
                         <div className="so-luong">
-                            <h6>{profile.posts.length}</h6>
-                            <h6>40 followers</h6>
-                            <h6>40 following</h6>
+                            <h6>{profile.posts.length} post</h6>
+                            <h6>{profile.user.followers.length} followers</h6>
+                            <h6>{profile.user.following.length} following</h6>
                         </div>
                     </div>
                 </div>
@@ -61,16 +84,12 @@ const Profile = () => {
                             )
                         })
                     }
-                    <img className="item" src="https://i.pinimg.com/564x/09/d5/b6/09d5b6ef071e3ca9d0261ab4bc9d2a0c.jpg" alt="load error" />
-                    <img className="item" src="https://i.pinimg.com/564x/0e/32/3c/0e323c1daaa7c4f980c27bda3adb8088.jpg" alt="load error" />
-                    <img className="item" src="https://i.pinimg.com/564x/bc/a6/22/bca6228994bcb95bdcdc3a8506c301b5.jpg" alt="load error" />
-                    <img className="item" src="https://i.pinimg.com/564x/52/31/86/52318636bfa98df1df934b0e0d11e048.jpg" alt="load error" />
-                    <img className="item" src="https://i.pinimg.com/564x/8c/90/ac/8c90aca624744b8c6a51db2973958c6d.jpg" alt="load error" />
-                    <img className="item" src="https://i.pinimg.com/564x/ec/be/83/ecbe8352336ad252d30beecb0fd7e882.jpg" alt="load error" />
                 </div>
             </div>
             :
-            <h2>Loading...</h2>
+            <div class="progress">
+                <div class="indeterminate"></div>
+            </div>
         }
         </>
     )
