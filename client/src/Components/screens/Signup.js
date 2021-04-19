@@ -1,22 +1,29 @@
-import React, {useState, useContext} from 'react'
+import React, { useState, useContext } from 'react'
 import '../screens_css/Signup.css'
-import {Link, useHistory} from 'react-router-dom'
+import { Link, useHistory } from 'react-router-dom'
 import M from 'materialize-css'
-import {UserContext} from '../../App'
+import { UserContext } from '../../App'
 
 const Signup = () => {
-    const {state} = useContext(UserContext)
+    const { state } = useContext(UserContext)
     const history = useHistory();
     const [name, setName] = useState("")
     const [password, setPassword] = useState("")
     const [email, setEmail] = useState("")
+    const [selectedOption, setSelectedOption] = useState("Nam")
 
     const postData = () => {
         var re = /^[\w-.]+@([\w-]+\.)+[\w-]{2,4}$/
-        if(re.test(email) === false) {
-            M.toast({html: "Invalid email", classes: "#c62828 red darken-3"})
-            return;
+        if (re.test(email) === false) {
+            M.toast({ html: "Invalid email", classes: "#c62828 red darken-3" })
+            return
         }
+
+        if(!name || !email || !password) {
+            M.toast({ html: "Please add all the fields", classes: "#c62828 red darken-3" })
+            return
+        }
+
         fetch("/signup", {
             method: "post",
             headers: {
@@ -25,46 +32,79 @@ const Signup = () => {
             body: JSON.stringify({
                 name,
                 email,
-                password
+                password,
+                selectedOption
             })
         }).then(res => res.json())
-        .then(data => {
-            if(data.error) {
-                M.toast({html: data.error, classes: "#c62828 red darken-3"})
-            }
-            else {
-                M.toast({html: data.message, classes: "#43a047 green darken-1"})
-                history.push('/login')
-            }
-        })
+            .then(data => {
+                if (data.error) {
+                    M.toast({ html: data.error, classes: "#c62828 red darken-3" })
+                }
+                else {
+                    M.toast({ html: data.message, classes: "#43a047 green darken-1" })
+                    history.push('/login')
+                }
+            })
     }
 
-    if(state) {
+    const onValueChange = (e) => {
+        console.log(e.target.value)
+        setSelectedOption(e.target.value)
+    }
+
+    if (state) {
         history.push("/")
     }
 
     return (
         <div className="card card-signup">
             <h1>Instagram</h1>
-            <input 
+            <input
                 className="input-name"
                 type="text"
                 placeholder="Your name"
                 value={name}
                 onChange={(e) => setName(e.target.value)}
             />
-            <input 
+            <input
                 type="email"
                 placeholder="Your email"
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
             />
-            <input 
+            <input
                 type="password"
                 placeholder="Password"
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
             />
+            <div>
+                <label>Giới tính</label>
+                <label>
+                    <input className="with-gap" name="group1" type="radio" 
+                        value="Nam"
+                        checked={selectedOption === "Nam"}
+                        onChange={onValueChange}
+                    />
+                    <span>Nam</span>
+                </label>
+                <label>
+                    <input className="with-gap" name="group1" type="radio" 
+                        value="Nu"
+                        checked={selectedOption === "Nu"}
+                        onChange={onValueChange}
+                    />
+                    <span>Nu</span>
+                </label>
+                <label>
+                    <input class="with-gap" name="group1" type="radio" 
+                        value="Khac"
+                        checked={selectedOption === "Khac"}
+                        onChange={onValueChange}
+                    />
+                    <span>Khác</span>
+                </label>
+            </div>
             <button className="btn waves-effect waves-light #64b5f6 blue lighten-2 btn-signup" onClick={postData} >Signup</button>
             <div className="gach-ngang"></div>
             <Link to="/login">Bạn đã có tài khoản?</Link>

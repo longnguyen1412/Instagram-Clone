@@ -2,6 +2,13 @@
     width: 160px;
     height: 160px;
     border-radius: 50%;
+    position: relative;
+    overflow: hidden;
+    cursor: pointer;
+}
+
+.khung-avatar:hover span {
+    opacity: 1;
 }
 
 .khung-avatar .avatar {
@@ -10,6 +17,24 @@
     border-radius: 50%;
     object-fit: cover;
     object-position: center;
+}
+
+.khung-avatar span {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    padding: 7px;
+    display: flex;
+    justify-content: center;
+    background-color: rgba(56, 56, 56, 0.3);
+    opacity: 0;
+    transition: all 0.5s;
+}
+
+.khung-avatar .fa-camera {
+    font-size: 30px;
+    color: #eee;
 }
 
 .thong-tin .so-luong {

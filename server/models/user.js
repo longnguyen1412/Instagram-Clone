@@ -14,16 +14,24 @@ const userSchema = new mongoose.Schema({
         type: String,
         required: true
     },
+    selectedOption: {
+        type: String,
+        required: true
+    },
+    urlAvatar: {
+        type: String,
+        required: true
+    },
     followers: [
         {
             type: ObjectId,
-            ref: "User"
+            ref: "User",
         }
     ],
     following: [
         {
             type: ObjectId,
-            ref: "User"
+            ref: "User",
         }
     ]
 })

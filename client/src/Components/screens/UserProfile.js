@@ -1,10 +1,13 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, useContext } from 'react'
 import '../screens_css/Profile.css'
 import {useParams} from 'react-router-dom'
+import { UserContext } from '../../App'
 
 import M from 'materialize-css'
 
 const Profile = () => {
+    const { state } = useContext(UserContext)
+
     const [profile, setProfile] = useState(null)
     const {id} = useParams()
 
@@ -20,7 +23,6 @@ const Profile = () => {
                 if(result.error){
                     M.toast({html: "Not found!", classes: "#c62828 red darken-3"})
                 }else {
-                    console.log(result)
                     setProfile(result)
                 }
             })
@@ -43,10 +45,38 @@ const Profile = () => {
         })
             .then(res => res.json())
             .then(user => {
-                console.log(user)
                 var newProfile = {...profile}
                 newProfile.user = user
                 setProfile(newProfile)
+            })
+            .catch(err => {
+                console.log(err)
+            })
+    }
+
+    const unFollowUser = () => {
+        fetch('/unfollow', {
+            method: "put",
+            headers: {
+                "Content-Type": "application/json",
+                "Authorization": "Bearer " + localStorage.getItem('jwt')
+            },
+            body: JSON.stringify({
+                unFollowId: id
+            })
+        })
+            .then(res => res.json())
+            .then(user => {
+                if(user.error) {
+                    return console.log(user.error)
+                }
+
+                var newProfile = {...profile}
+                newProfile.user = user
+                setProfile(newProfile)
+            })
+            .catch(err => {
+                console.log(err)
             })
     }
 
@@ -59,14 +89,19 @@ const Profile = () => {
                     <div className="khung-avatar" ef="/home">
                         <img
                             className="avatar"
-                            src="https://images.unsplash.com/photo-1604751344909-7dafcca7e760?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=500&q=60"
+                            src={profile.user.urlAvatar}
                             alt="load error"
                         />
                     </div>
                     <div className="thong-tin">
                         <div>
                             <h4>{profile.user.name}</h4>
-                            <button onClick={followUser}>Follow</button>
+                            {
+                                !profile.user.followers.includes(state._id) ?
+                                <button onClick={followUser}>Follow</button>
+                                :
+                                <button onClick={unFollowUser}>Unfollow</button>
+                            }
                         </div>
                         <div className="so-luong">
                             <h6>{profile.posts.length} post</h6>

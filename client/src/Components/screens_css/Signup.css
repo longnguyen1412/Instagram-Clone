@@ -10,6 +10,13 @@
     box-shadow: 0 0 5px 3px rgba(200, 200, 200, 1);
 }
 
+.card-signup h1{
+    font-family: 'Grand Hotel', Arial, Helvetica, sans-serif;
+    font-size: 74px;
+    margin-top: 0px;
+    margin-bottom: 30px;
+}
+
 .card-signup input {
     padding: 0 10px !important;
     width: 100% !important;

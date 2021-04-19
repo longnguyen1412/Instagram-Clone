@@ -1,7 +1,11 @@
 @import url('https://fonts.googleapis.com/css2?family=Grand+Hotel&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700&display=swap');
+
+@import url('https://db.onlinewebfonts.com/c/0c5e6f133b0b25edfed47aca4ab57676?family=Segoe+UI+Historic');
 
 body {
-    background-color: rgb(241, 243, 247);
+    background-color: #fafafa;
+    font-family: 'Roboto', sans-serif;
 }
 
 .navbar {
@@ -10,6 +14,8 @@ body {
     height: 54px;
     line-height: 54px;
     top: 0;
+    border-bottom: 1px solid #dbdbdb;
+    box-shadow: none;
 }
 
 .nav-wrapper li a {
@@ -50,5 +56,13 @@ body {
 }
 
 h6 {
+    margin: 0;
+}
+
+.progress {
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 10;
     margin: 0;
 }

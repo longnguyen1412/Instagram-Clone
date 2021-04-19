@@ -4,6 +4,7 @@ const mongoose = require('mongoose')
 const middlewareLogin = require('../middleware/requireLogin')
 const router = express.Router()
 const Post = mongoose.model("Post")
+const User = mongoose.model("User")
 
 router.post('/createPost', middlewareLogin, (req, res) => {                 //Tạo mới một post và lưu vào database
     const { body, url } = req.body
@@ -26,9 +27,42 @@ router.post('/createPost', middlewareLogin, (req, res) => {                 //T�
         })
 })
 
+router.post('/changeAvatar', middlewareLogin, (req, res) => {                 //Thay avatar
+    const { body, url } = req.body
+    if (!body || !url) {
+        return res.status(422).json({ error: "Please add all the fields" })
+    }
+    const post = new Post({
+        title: "đã cập nhật ảnh đại diện mới.",
+        body,
+        photoUrl: url,
+        postedBy: req.user.id
+    })
+
+    post.save()
+        .then(result => {
+            User.findByIdAndUpdate(req.user.id, {
+                $set: {urlAvatar: url}
+            }, {
+                new: true
+            })
+                .then(user => {
+                    return res.status(200).json({ post: result })
+                })
+                .catch(err => {
+                    console.log(err)
+                    return res.status(422).json({error: err})
+                })
+        })
+        .catch(err => {
+            console.log(err)
+            return res.status(422).json({error: err})
+        })
+})
+
 router.get('/allPost', middlewareLogin, (req, res) => {         //Trả về tất cả các post trong database khi load trang home
     Post.find()
-        .populate("postedBy", "_id name")
+        .populate("postedBy", "_id name urlAvatar")
         .populate("comments.postedBy", "_id name")
         .then(posts => {
             return res.status(200).json(posts.reverse())
@@ -54,7 +88,7 @@ router.get('/myPosts', middlewareLogin, (req, res) => {     //Trả về mảng 
 
 router.put('/like', middlewareLogin, (req, res) => {        //like post: thêm id người dùng vào mảng likes của post
     Post.findById(req.body.postId)
-        .populate("postedBy", "_id name")
+        .populate("postedBy", "_id name urlAvatar")
         .populate("comments.postedBy", "_id name")
         .then(post => {
             if (post.likes.includes(req.user.id)) {           //Nếu người dùng đã like thì trả về luôn post
@@ -65,7 +99,7 @@ router.put('/like', middlewareLogin, (req, res) => {        //like post: thêm i
                 }, {
                     new: true
                 })
-                    .populate("postedBy", "_id name")
+                    .populate("postedBy", "_id name urlAvatar")
                     .populate("comments.postedBy", "_id name")
                     .exec((err, result) => {
                         if (err) {
@@ -84,7 +118,7 @@ router.put('/unlike', middlewareLogin, (req, res) => {              //Xoá id ng
     }, {
         new: true
     })
-        .populate("postedBy", "_id name")
+        .populate("postedBy", "_id name urlAvatar")
         .populate("comments.postedBy", "_id name")
         .exec((err, result) => {
             if (err) {

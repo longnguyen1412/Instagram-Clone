@@ -6,7 +6,7 @@ import { UserContext } from '../../App'
 
 import Modal from "./Modal";
 import Ads from '../ads/Ads'
-import { Link } from 'react-router-dom';
+import { Link } from 'react-router-dom'
 
 const Home = () => {
     const { state } = useContext(UserContext)
@@ -16,9 +16,6 @@ const Home = () => {
     const [idFocus, setIdFocus] = useState("")
 
     useEffect(() => {
-        // if(data) {
-        //     console.log(data)
-        // } 
         fetch('/allpost', {
             headers: {
                 "Authorization": "Bearer " + localStorage.getItem("jwt")
@@ -31,6 +28,9 @@ const Home = () => {
                     setData(result)
                 }
             })
+        return () => {
+            console.log("Home unmount")
+        }
     }, [])
 
     const likePost = (id) => {
@@ -136,12 +136,12 @@ const Home = () => {
         })
             .then(res => res.json())
             .then(result => {
-                if(result.err) {
-                    M.toast({html: result.error, classes: "#c62828 red darken-3"})
-                }else {
+                if (result.err) {
+                    M.toast({ html: result.error, classes: "#c62828 red darken-3" })
+                } else {
                     const newData = data.filter(post => post._id !== postId)
                     setData(newData)
-                    M.toast({html: "Delete success!", classes: "#43a047 green darken-1"})
+                    M.toast({ html: "Delete success!", classes: "#43a047 green darken-1" })
                 }
             })
     }
@@ -156,6 +156,8 @@ const Home = () => {
         setOnModal(true)
     }
 
+    console.log("home render")
+
     return (
         <div className="home">
             <div className="news-feed">
@@ -169,11 +171,21 @@ const Home = () => {
                         return (
                             <div className="card home-card" key={post._id}>
                                 <div className="nav-card">
-                                    <h5>
+                                    <div className="nav-card-info">
                                         <Link to={post.postedBy._id === userId ? "/profile" : "/profile/" + post.postedBy._id}>
-                                            {post.postedBy.name}
+                                            <div className="info_posted">
+                                                <div className="avatar">
+                                                    <img src={post.postedBy.urlAvatar} alt="bug" />
+                                                </div>
+                                                <div className="info">
+                                                    <b>{post.postedBy.name}</b>
+                                                </div>
+                                            </div>
                                         </Link>
-                                    </h5>
+                                        {
+                                            post.title && <span>{post.title}</span>
+                                        }
+                                    </div>
                                     <i className="fas fa-ellipsis-h" onClick={() => dotOnClick(post.postedBy._id, post._id)}></i>
                                 </div>
                                 <div className="card-image" onDoubleClick={() => ImageOnDoubleClick(post._id)}>
@@ -230,6 +242,12 @@ const Home = () => {
                     idFocus={idFocus}
                 >
                 </Modal>
+            }
+            {
+                data.length === 0 &&
+                <div className="progress">
+                    <div className="indeterminate"></div>
+                </div>
             }
         </div>
     )

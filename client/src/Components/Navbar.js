@@ -31,6 +31,9 @@ const NavBar = () => {
             ]
         }
     }
+
+    console.log("navbar render")
+
     return (
         <nav className="white navbar">
             <div className="nav-wrapper container-ig">

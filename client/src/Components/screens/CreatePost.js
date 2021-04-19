@@ -1,15 +1,34 @@
-import React, {useState} from 'react'
+import React, { useState, useEffect } from 'react'
 import M from 'materialize-css'
-import {useHistory} from 'react-router-dom'
+import { useHistory } from 'react-router-dom'
 import '../screens_css/CreatePost.css'
 
 const CreatePost = () => {
     const history = useHistory()
     const [body, setBody] = useState("")
     const [image, setImage] = useState("")
+    const [imgPreview, setImgPreview] = useState(null)
+    const [user, setUser] = useState({})
+
+    useEffect(() => {
+        fetch("/user", {
+            method: "get",
+            headers: {
+                "Content-Type": "application/json",
+                "Authorization": "Bearer " + localStorage.getItem("jwt")
+            }
+        })
+            .then(res => res.json())
+            .then(result => {
+                setUser(result)
+            })
+            .catch(err => {
+                console.log(err)
+            })
+    })
 
     const createPost = (url) => {
-        if(url) {
+        if (url) {
             fetch("/createPost", {
                 method: "post",
                 headers: {
@@ -21,26 +40,25 @@ const CreatePost = () => {
                     url
                 })
             }).then(res => res.json())
-            .then((data) => {
-                if(data.error) {
-                    M.toast({html: data.error, classes: "#c62828 red darken-3"})
-                }
-                else {
-                    console.log(data)
-                    M.toast({html: "Create post success!", classes: "#43a047 green darken-1"})
-                    history.push('/')
-                }
-            })
-            .catch(err => {
-                console.log(err)
-            })
+                .then((data) => {
+                    if (data.error) {
+                        M.toast({ html: data.error, classes: "#c62828 red darken-3" })
+                    }
+                    else {
+                        console.log(data)
+                        M.toast({ html: "Create post success!", classes: "#43a047 green darken-1" })
+                        history.push('/')
+                    }
+                })
+                .catch(err => {
+                    console.log(err)
+                })
         }
-        // eslint-disable-next-line react-hooks/exhaustive-deps
     }
 
     const postDetails = () => {
-        if(!body || !image) {
-            M.toast({html: "Please add all the fields!", classes: "#c62828 red darken-3"})
+        if (!body || !image) {
+            M.toast({ html: "Please add all the fields!", classes: "#c62828 red darken-3" })
             return
         }
 
@@ -54,28 +72,87 @@ const CreatePost = () => {
             method: "post",
             body: data,
         })
-        .then(res => res.json())
-        .then(data => {
-            createPost(data.url)
-        })
-        .catch(err => {
-            console.log(err)
-        })
+            .then(res => res.json())
+            .then(data => {
+                console.log(data)
+                createPost(data.url)
+            })
+            .catch(err => {
+                console.log(err)
+            })
+    }
+
+    const handleImageChange = (e) => {
+        setImage(e.target.files[0])
+        const selected = e.target.files[0]
+        if (selected) {
+            let reader = new FileReader()
+            reader.onloadend = () => {
+                setImgPreview(reader.result)
+            }
+            reader.readAsDataURL(selected)
+        } else {
+            setImgPreview(null)
+        }
+    }
+
+    const textAreaOnChange = (e) => {
+        setBody(e.target.value)
+    
+        if(e.target.value.length > 120) {
+            e.target.style.fontSize = "20px"
+        } else {
+            e.target.style.fontSize = "32px"
+        }
+        e.target.style.height = "auto"
+        e.target.style.height = e.target.scrollHeight + "px"
     }
 
     return (
         <div className="card input-filed">
-            <input className="create-input"
-                type="text"
-                placeholder="Bạn đang nghĩ gì?!!" 
-                value={body}
-                onChange={(e) => setBody(e.target.value)}    
-            />
+            <div className="card__header">Tạo bài viết</div>
+            <div className="card__info">
+                <div className="nav-card-info">
+                    <div className="nav-info">
+                        <div className="avatar">
+                            <img src={user.urlAvatar} alt="bug" />
+                        </div>
+                        <div className="info">
+                            <b>{user.name}</b> <br />
+                            <span>Long Nguyễn</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div className="card__body">
+                {/* <input className="create-input"
+                    type="text"
+                    placeholder={user.name + " ơi, bạn đang nghĩ gì thế?"}
+                    value={body}
+                    onChange={(e) => setBody(e.target.value)}
+                /> */}
+                <textarea
+                    className="create-input"
+                    placeholder={user.name + " ơi, bạn đang nghĩ gì thế?"}
+                    value={body}
+                    onChange={textAreaOnChange}
+                >
+                </textarea>
+                {
+                    imgPreview &&
+                    <img
+                        className="img__preview"
+                        src={imgPreview}
+                        alt="load error!"
+                    />
+                }
+            </div>
             <div className="file-field input-field">
                 <div className="btn">
                     <span>File</span>
-                    <input type="file" 
-                        onChange={(e) => {setImage(e.target.files[0])}}
+                    <input type="file"
+                        accept="image/*,image/heif,image/heic"
+                        onChange={handleImageChange}
                     />
                 </div>
                 <div className="file-path-wrapper">

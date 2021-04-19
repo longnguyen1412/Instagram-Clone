@@ -18,8 +18,8 @@ router.get('/protected', middlewareLogin, (req, res) => {
 })
 
 router.post('/signup', (req, res) => {
-    const {name, email, password} = req.body
-    if(!email || !password || !name) {
+    const {name, email, password, selectedOption} = req.body
+    if(!email || !password || !name || !selectedOption) {
         return res.status(422).json({error: "please add all the fields"})
     }
     User.findOne({email: email})
@@ -29,10 +29,20 @@ router.post('/signup', (req, res) => {
             }
             bcrypt.hash(password, 12)
                 .then(hashedPassword => {
+                    let urlAvatar = ""
+                    if(selectedOption === "Nam"){
+                        urlAvatar = "http://res.cloudinary.com/ig-clone-44/image/upload/v1616225069/rt7myzvt6q5n5hc0bpuy.jpg"
+                    }else if(selectedOption === "Nu") {
+                        urlAvatar = "http://res.cloudinary.com/ig-clone-44/image/upload/v1616225037/ap3f08ag8ybm9ftybj3l.jpg"
+                    }else {
+                        urlAvatar = "http://res.cloudinary.com/ig-clone-44/image/upload/v1616227304/ml9uqlv5yriwnss4vylw.jpg"
+                    }
                     const user = new User({
                         email,
                         password: hashedPassword,
-                        name
+                        name,
+                        selectedOption,
+                        urlAvatar
                     })
         
                     user.save()
@@ -65,10 +75,9 @@ router.post('/login', (req, res) => {
             bcrypt.compare(password, saveUser.password)
                 .then(doMatch => {
                     if(doMatch) {
-                        //return res.json({message: "Successfully signed in"})
                         const token = jwt.sign({_id: saveUser._id}, JWT_SECRET)
-                        const {_id, name, email} = saveUser
-                        return res.json({token, user: {_id, name, email}})
+                        const {_id, name, email, followers, following, urlAvatar} = saveUser
+                        return res.json({token, user: {_id, name, email, followers, following, urlAvatar}})
                     }
                     else {
                         return res.status(422).json({error: "Invalid Email or Password"})

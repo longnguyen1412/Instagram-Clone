@@ -1,11 +1,11 @@
-import React, {useState, useContext} from 'react'
+import React, { useState, useContext } from 'react'
 import '../screens_css/Login.css'
-import {Link, useHistory} from 'react-router-dom'
-import {UserContext} from '../../App'
+import { Link, useHistory } from 'react-router-dom'
+import { UserContext } from '../../App'
 import M from 'materialize-css'
 
 const Login = () => {
-    const {state, dispatch} = useContext(UserContext)
+    const { state, dispatch } = useContext(UserContext)
     const history = useHistory()
     const [password, setPassword] = useState("")
     const [email, setEmail] = useState("")
@@ -13,8 +13,8 @@ const Login = () => {
     const postData = (e) => {
         e.target.classList.add("none-even")
         var re = /^[\w-.]+@([\w-]+\.)+[\w-]{2,4}$/
-        if(re.test(email) === false) {
-            M.toast({html: "Invalid email", classes: "#c62828 red darken-3"})
+        if (re.test(email) === false) {
+            M.toast({ html: "Invalid email", classes: "#c62828 red darken-3" })
             e.target.classList.remove("none-even")
             return;
         }
@@ -29,36 +29,36 @@ const Login = () => {
                 password
             })
         })
-        .then(res => res.json())
-        .then(data => {
-            if(data.error) {
-                M.toast({html: data.error, classes: "#c62828 red darken-3"})
-                e.target.classList.remove("none-even")
-            }
-            else {
-                M.toast({html: "Login success", classes: "#43a047 green darken-1"})
-                localStorage.setItem("jwt", data.token)
-                localStorage.setItem("user", JSON.stringify(data.user))
-                dispatch({type: "USER", payload: data.user})
-                history.push('/')
-            }
-        })
+            .then(res => res.json())
+            .then(data => {
+                if (data.error) {
+                    M.toast({ html: data.error, classes: "#c62828 red darken-3" })
+                    e.target.classList.remove("none-even")
+                }
+                else {
+                    M.toast({ html: "Login success", classes: "#43a047 green darken-1" })
+                    localStorage.setItem("jwt", data.token)
+                    localStorage.setItem("user", JSON.stringify(data.user))
+                    dispatch({ type: "USER", payload: data.user })
+                    history.push('/')
+                }
+            })
     }
 
-    if(state) {
+    if (state) {
         history.push("/")
     }
 
     return (
         <div className="card card-login">
             <h1>Instagram</h1>
-            <input 
+            <input
                 type="email"
                 placeholder="Your email"
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
             />
-            <input 
+            <input
                 type="password"
                 placeholder="Password"
                 value={password}

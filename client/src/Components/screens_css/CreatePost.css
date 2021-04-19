@@ -1,11 +1,54 @@
+
+.card__header {
+    font-size: 34px;
+    font-weight: 500;
+    border-bottom: 1px solid rgb(228, 228, 228);
+    padding: 8px;
+    margin-bottom: 20px;
+}
+
+.nav-info {
+    display: flex;
+    align-items: center;
+    text-align: left;
+    margin-bottom: 20px;
+}
+
+.nav-info .avatar {
+    width: 54px;
+    height: 54px;
+    margin-right: 10px;
+}
+
+.card__body .create-input {
+    border: none !important;
+    /* border: 1px solid #333; */
+    font-size: 32px;
+    min-height: 120px;
+    outline: none;
+    overflow-y: hidden;
+    resize: none;
+}
+
+.card__body .create-input:focus {
+    box-shadow: none !important;
+}
+
+.card__body .create-input::placeholder {
+    font-size: 32px;
+    font-weight: 400;
+    color: rgba(79, 75, 75, 0.8);
+}
+
 .input-filed {
     position: absolute;
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
-    min-width: 600px;
-    padding: 30px;
+    width: 500px;
+    padding: 0 15px;
     text-align: center;
+    border-radius: 6px;
 }
 
 .file-field {
@@ -21,3 +64,34 @@
     height: 35px;
     margin-bottom: 0;
 }
+
+.img__preview{
+    width: 100%;
+    border-radius: 10px;
+}
+
+.input-filed .card__body {
+    overflow: auto;
+    max-height: 50vh;
+}
+
+.card__body {
+    padding-right: 0px;
+}
+
+.card__body:hover::-webkit-scrollbar-thumb {
+    background-color: #C5C5C5;
+}
+
+.card__body::-webkit-scrollbar {
+    width: 6px;
+    background-color: #fff;
+}
+
+.card__body::-webkit-scrollbar-thumb {
+    border-radius: 3px;
+}
+
+/* ---Change Avatar--- */
+/* ------------------- */
+

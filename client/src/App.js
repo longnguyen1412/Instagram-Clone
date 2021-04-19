@@ -1,16 +1,17 @@
-import './App.css';
+import './App.css'
 
-import { BrowserRouter, Route, Switch, useHistory } from 'react-router-dom';
-import { createContext, useEffect, useReducer } from 'react';
+import { BrowserRouter, Route, Switch, useHistory } from 'react-router-dom'
+import { createContext, useEffect, useReducer } from 'react'
 
-import NavBar from './Components/Navbar';
-import Home from './Components/screens/Home';
-import Profile from './Components/screens/Profile';
+import NavBar from './Components/Navbar'
+import Home from './Components/screens/Home'
+import Profile from './Components/screens/Profile'
 import UserProfile from './Components/screens/UserProfile'
-import Signup from './Components/screens/Signup';
-import Login from './Components/screens/Login';
-import CreatePost from './Components/screens/CreatePost';
-import { reducer, initialState } from './Reducers/userReducer';
+import Signup from './Components/screens/Signup'
+import Login from './Components/screens/Login'
+import CreatePost from './Components/screens/CreatePost'
+import ChangeAvatar from './Components/screens/ChangeAvatar'
+import { reducer, initialState } from './Reducers/userReducer'
 
 export const UserContext = createContext()
 
@@ -21,8 +22,11 @@ const Routing = () => {
     if (!user) {
       history.push('/login')
     }
+    return () => console.log("routing unmount")
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
+
+  console.log("routing render")
 
   return (
     <Switch>
@@ -35,13 +39,16 @@ const Routing = () => {
       <Route path="/profile/:id">
         <UserProfile />
       </Route>
-      <Route path="/create">
+      <Route exact path="/create">
         <CreatePost />
       </Route>
-      <Route path="/signup">
+      <Route exact path="/changeAvatar">
+        <ChangeAvatar />
+      </Route>
+      <Route exact path="/signup">
         <Signup />
       </Route>
-      <Route path="/login">
+      <Route exact path="/login">
         <Login />
       </Route>
     </Switch>
@@ -51,6 +58,12 @@ const Routing = () => {
 function App() {
   const user = JSON.parse(localStorage.getItem("user"))
   const [state, dispatch] = useReducer(reducer, user || initialState)
+
+  useEffect(() => {
+    
+    return () => console.log("app unmount")
+  })
+  console.log("app render")
   return (
     <UserContext.Provider value={{ state, dispatch }}>
       <BrowserRouter>
