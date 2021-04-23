@@ -19,7 +19,7 @@ const Login = () => {
             return;
         }
 
-        fetch("/login", {
+        fetch("/api/login", {
             method: "post",
             headers: {
                 "Content-Type": "application/json"

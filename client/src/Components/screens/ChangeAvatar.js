@@ -11,7 +11,7 @@ const ChangeAvatar = () => {
     const [user, setUser] = useState({})
 
     useEffect(() => {
-        fetch("/user", {
+        fetch("/api/user", {
             method: "get",
             headers: {
                 "Content-Type": "application/json",
@@ -29,7 +29,7 @@ const ChangeAvatar = () => {
 
     const createPost = (url) => {
         if(url) {
-            fetch("/changeAvatar", {
+            fetch("/api/changeAvatar", {
                 method: "post",
                 headers: {
                     "Content-Type": "application/json",
@@ -68,7 +68,7 @@ const ChangeAvatar = () => {
         data.append("cloud_name", "cnq")
 
         //Post ảnh lên cloudinary
-        fetch("https://api.cloudinary.com/v1_1/ig-clone-44/image/upload", {
+        fetch("/apihttps://api.cloudinary.com/v1_1/ig-clone-44/image/upload", {
             method: "post",
             body: data,
         })

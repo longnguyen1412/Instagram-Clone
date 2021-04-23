@@ -9,7 +9,7 @@ const Profile = () => {
     const { state } = useContext(UserContext)
 
     useEffect(() => {
-        fetch(`/user/${state._id}`, {
+        fetch(`/api/user/${state._id}`, {
             method: "get",
             headers: {
                 "Authorization": "Bearer " + localStorage.getItem("jwt")

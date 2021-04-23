@@ -12,7 +12,7 @@ const CreatePost = () => {
     const {id} = useParams()
 
     useEffect(() => {
-        fetch("/user", {
+        fetch("/api/user", {
             method: "get",
             headers: {
                 "Authorization": "Bearer " + localStorage.getItem("jwt")
@@ -27,7 +27,7 @@ const CreatePost = () => {
             })
 
         //Load post
-        fetch(`/post/${id}`, {
+        fetch(`/api/post/${id}`, {
             method: 'get',
             headers: {
                 "Authorization": "Bearer " + localStorage.getItem("jwt")
@@ -57,7 +57,7 @@ const CreatePost = () => {
             return M.toast({ html: "Please add all the fields!", classes: "#c62828 red darken-3" })
         }
 
-        fetch(`/post/${id}`, {
+        fetch(`/api/post/${id}`, {
             method: "put",
             headers: {
                 "Content-Type": "application/json",

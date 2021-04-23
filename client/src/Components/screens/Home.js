@@ -19,7 +19,7 @@ const Home = () => {
     const [cmtIndex, setCmtIndex] = useState(null)
 
     useEffect(() => {
-        fetch('/allpost', {
+        fetch('/api/allpost', {
             headers: {
                 "Authorization": "Bearer " + localStorage.getItem("jwt")
             }
@@ -34,7 +34,7 @@ const Home = () => {
     }, [])
 
     const likePost = (id) => {
-        fetch('/like', {
+        fetch('/api/like', {
             method: "put",
             headers: {
                 "Content-Type": "application/json",
@@ -57,7 +57,7 @@ const Home = () => {
     }
 
     const unlikePost = (id) => {
-        fetch('/unlike', {
+        fetch('/api/unlike', {
             method: "put",
             headers: {
                 "Content-Type": "application/json",
@@ -92,7 +92,7 @@ const Home = () => {
 
     //Hàm thực hiện xoá comment nhận vào id post, index comment 
     const deleteComment = (postId, index) => {
-        fetch('/uncomment', {
+        fetch('/api/uncomment', {
             method: "put",
             headers: {
                 "Content-Type": "application/json",
@@ -133,7 +133,7 @@ const Home = () => {
     }
 
     const makeComment = (text, postId) => {
-        fetch('/comment', {
+        fetch('/api/comment', {
             method: "put",
             headers: {
                 "Content-Type": "application/json",
@@ -164,7 +164,7 @@ const Home = () => {
     }
 
     const deletePost = (postId) => {
-        fetch(`/deletepost/${postId}`, {
+        fetch(`/api/deletepost/${postId}`, {
             method: "delete",
             headers: {
                 Authorization: "Bearer " + localStorage.getItem("jwt")
