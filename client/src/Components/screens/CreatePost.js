@@ -25,7 +25,7 @@ const CreatePost = () => {
             .catch(err => {
                 console.log(err)
             })
-    })
+    }, [])
 
     const createPost = (url) => {
         if (url) {
@@ -125,12 +125,6 @@ const CreatePost = () => {
                 </div>
             </div>
             <div className="card__body">
-                {/* <input className="create-input"
-                    type="text"
-                    placeholder={user.name + " ơi, bạn đang nghĩ gì thế?"}
-                    value={body}
-                    onChange={(e) => setBody(e.target.value)}
-                /> */}
                 <textarea
                     className="create-input"
                     placeholder={user.name + " ơi, bạn đang nghĩ gì thế?"}

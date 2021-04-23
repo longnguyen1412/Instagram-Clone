@@ -1,4 +1,4 @@
-import React, { useState, useContext } from 'react'
+import React, { useState, useContext, useEffect } from 'react'
 import '../screens_css/Login.css'
 import { Link, useHistory } from 'react-router-dom'
 import { UserContext } from '../../App'
@@ -45,9 +45,12 @@ const Login = () => {
             })
     }
 
-    if (state) {
-        history.push("/")
-    }
+    useEffect(() => {
+        if(state) {
+            history.push('/')
+        }
+        // eslint-disable-next-line
+    }, [])
 
     return (
         <div className="card card-login">

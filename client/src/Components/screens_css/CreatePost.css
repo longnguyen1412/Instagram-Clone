@@ -92,6 +92,10 @@
     border-radius: 3px;
 }
 
+.card .btn-create {
+    margin-bottom: 25px;
+}
+
 /* ---Change Avatar--- */
 /* ------------------- */
 

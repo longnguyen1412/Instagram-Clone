@@ -135,12 +135,16 @@ router.put('/comment', middlewareLogin, (req, res) => {         //Thêm comment 
         postedBy: req.user.id
     }
 
+    if(!req.body.text) {
+        return res.status(422).json({ error: "Comment không được để trống!" })
+    }
+
     Post.findByIdAndUpdate(req.body.postId, {
         $push: { comments: comment }
     }, {
         new: true
     })
-        .populate("postedBy", "_id name")
+        .populate("postedBy", "_id name urlAvatar")
         .populate("comments.postedBy", "_id name")
         .exec((err, result) => {
             if (err) {
@@ -148,6 +152,88 @@ router.put('/comment', middlewareLogin, (req, res) => {         //Thêm comment 
             } else {
                 res.json(result)
             }
+        })
+})
+
+router.put('/uncomment', middlewareLogin, (req, res) => {
+    const {postId, commentIndex} = req.body
+
+    Post.findById(postId)
+    .populate("postedBy", "_id name urlAvatar")
+    .populate("comments.postedBy", "_id name")
+    .then(post => {
+        if(post) {
+            if (post.comments[commentIndex].postedBy._id.toString() !== req.user.id.toString()) {       //Nếu comment không được posted by user thì trả về post
+                return res.json(post)
+            } else {                                                                                    //Nếu ngược lại thì xoá comment và trả về post mới
+                //Xoá comment và cập nhật comments
+                post.comments.splice(commentIndex, 1)
+                post.save()
+                    .then(newPost => {
+                        return res.status(200).json(newPost)
+                    })
+                    .catch(err => {
+                        console.log(err)
+                        return res.status(422).json({error: err})
+                    })
+            }
+        }else {
+            console.log("post null")
+            return res.status(422).json({error: "delete failed!"})
+        }
+    })
+})
+
+router.get('/post/:postId', middlewareLogin, (req, res) => {
+    Post.findById(req.params.postId)
+        .populate("postedBy", "_id name")
+        .then(post => {
+            if(post) {
+                if(post.postedBy._id.toString() === req.user.id.toString()) {       //Nếu đúng bài viết của người dùng mới trả về
+                    return res.status(200).json(post)
+                }else {
+                    return res.status(422).json({error: "Không thể load post!"})
+                }
+            }else {
+                return res.status(422).json({error: "Không thể load post!"})
+            }
+        })
+        .catch(err => {
+            // console.log(err)
+            return res.status(422).json({error: "Không thể load post!"})
+        })
+})
+
+router.put('/post/:postId', middlewareLogin, (req, res) => {
+    if(!req.body.text) {
+        return res.status(422).json({error: "Please add all the fields!"})
+    }
+
+    Post.findById(req.params.postId)
+        .populate("postedBy", "_id name")
+        .then(post => {
+            if(post) {
+                if(post.postedBy._id.toString() === req.user.id.toString()) {  //Post phải là bài viết của user mới cho update
+                    post.body = req.body.text
+                    post.save()
+                        .then(result => {
+                            return res.status(200).json({ message: "Update successfully!" })
+                        })
+                        .catch(err => {
+                            console.log(err)
+                            return res.status(422).json({ error: "Update failed!" })
+                        })
+                }else {
+                    return res.status(422).json({error: "Update failed!"})
+                }
+                
+            }else {
+                return res.status(422).json({error: "Update failed!"})
+            }
+        })
+        .catch(err => {
+            console.log(err)
+            return res.status(422).json({error: "Update failed!"})
         })
 })
 

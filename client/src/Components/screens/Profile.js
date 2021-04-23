@@ -38,7 +38,7 @@ const Profile = () => {
                                     src={user.urlAvatar}
                                     alt="load error"
                                 />
-                                <span><Link to="/changeAvatar"><i class="fas fa-camera"></i></Link></span>
+                                <span><Link to="/changeAvatar"><i className="fas fa-camera"></i></Link></span>
                             </div>
                             <div className="thong-tin">
                                 <h4>{user.name}</h4>
@@ -61,8 +61,8 @@ const Profile = () => {
                         </div>
                     </div>
                     :
-                    <div class="progress">
-                        <div class="indeterminate"></div>
+                    <div className="progress">
+                        <div className="indeterminate"></div>
                     </div>
             }
         </>

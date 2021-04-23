@@ -11,6 +11,7 @@ import Signup from './Components/screens/Signup'
 import Login from './Components/screens/Login'
 import CreatePost from './Components/screens/CreatePost'
 import ChangeAvatar from './Components/screens/ChangeAvatar'
+import UpdatePost from './Components/screens/UpdatePost'
 import { reducer, initialState } from './Reducers/userReducer'
 
 export const UserContext = createContext()
@@ -22,11 +23,8 @@ const Routing = () => {
     if (!user) {
       history.push('/login')
     }
-    return () => console.log("routing unmount")
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
-
-  console.log("routing render")
 
   return (
     <Switch>
@@ -51,6 +49,9 @@ const Routing = () => {
       <Route exact path="/login">
         <Login />
       </Route>
+      <Route exact path="/updatepost/:id">
+        <UpdatePost />
+      </Route>
     </Switch>
   )
 }
@@ -59,11 +60,6 @@ function App() {
   const user = JSON.parse(localStorage.getItem("user"))
   const [state, dispatch] = useReducer(reducer, user || initialState)
 
-  useEffect(() => {
-    
-    return () => console.log("app unmount")
-  })
-  console.log("app render")
   return (
     <UserContext.Provider value={{ state, dispatch }}>
       <BrowserRouter>

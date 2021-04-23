@@ -1,16 +1,15 @@
 import React, { useState } from 'react'
-import {Link} from 'react-router-dom'
 
 import "../screens_css/Modal.css"
 
 const Modal = (props) => {
     const [onMessageDelete, setOnMessegeDelete] = useState(false)
     const closeModal = () => {
-        props.setOnModal(false)
+        props.setOnCommentModal(false)
     }
 
     const onClickDelete = () => {
-        props.deletePost(props.idFocus)
+        props.deleteComment(props.idFocus, props.cmtIndex)
         closeModal()
     }
 
@@ -21,10 +20,10 @@ const Modal = (props) => {
                 onMessageDelete ?
                     <ul>
                         <li>
-                            <div className="header__message">Xoá bài viết?</div>
+                            <div className="header__message">Xoá comment</div>
                             <p className="body__message">
-                                Nếu bạn không muốn xoá bài viết này, bạn có thể lưu trữ bài viết.
-                                Chỉ bạn mới có thể xem bài viết.
+                                Bạn có chắc chắn muốn xoá comment này?!! <br/>
+                                Sau khi xoá sẽ không thể khôi phục lại.
                             </p>
                         </li>
                         <li onClick={onClickDelete} className="warnning">
@@ -36,17 +35,7 @@ const Modal = (props) => {
                     </ul>
                     :
                     <ul>
-                        <li className="warnning">Báo cáo</li>
-                        {
-                            props.isPostedByUser ?
-                            [
-                                <li className="warnning" onClick={() => setOnMessegeDelete(true)} key="delete">Xoá</li>,
-                                <li key="update"><Link to={"/updatepost/" + props.idFocus}>Chỉnh sửa bài viết</Link></li>
-                            ]
-                            :
-                            <li className="warnning">Bỏ theo dõi</li>
-                        }
-                        <li>Chia sẻ</li>
+                        <li className="warnning" onClick={() => setOnMessegeDelete(true)}>Xoá</li>
                         <li onClick={closeModal}>Huỷ</li>
                     </ul>
             }

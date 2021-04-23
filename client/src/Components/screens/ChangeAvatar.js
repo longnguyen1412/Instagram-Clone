@@ -1,4 +1,4 @@
-import React, {useState} from 'react'
+import React, {useState, useEffect} from 'react'
 import M from 'materialize-css'
 import {useHistory} from 'react-router-dom'
 // import '../screens_css/CreatePost.css'
@@ -8,6 +8,24 @@ const ChangeAvatar = () => {
     const [body, setBody] = useState("")
     const [image, setImage] = useState("")
     const [imgPreview, setImgPreview] = useState(null)
+    const [user, setUser] = useState({})
+
+    useEffect(() => {
+        fetch("/user", {
+            method: "get",
+            headers: {
+                "Content-Type": "application/json",
+                "Authorization": "Bearer " + localStorage.getItem("jwt")
+            }
+        })
+            .then(res => res.json())
+            .then(result => {
+                setUser(result)
+            })
+            .catch(err => {
+                console.log(err)
+            })
+    }, [])
 
     const createPost = (url) => {
         if(url) {
@@ -78,17 +96,42 @@ const ChangeAvatar = () => {
         }
     }
 
+    const textAreaOnChange = (e) => {
+        setBody(e.target.value)
+    
+        if(e.target.value.length > 120) {
+            e.target.style.fontSize = "20px"
+        } else {
+            e.target.style.fontSize = "32px"
+        }
+        e.target.style.height = "auto"
+        e.target.style.height = e.target.scrollHeight + "px"
+    }
+
     return (
         <div className="card input-filed">
             <div className="card__header">Đổi ảnh đại diện</div>
-            <div className="card__info">Avatar và tên</div>
+            <div className="card__info">
+                <div className="nav-card-info">
+                    <div className="nav-info">
+                        <div className="avatar">
+                            <img src={user.urlAvatar} alt="bug" />
+                        </div>
+                        <div className="info">
+                            <b>{user.name}</b> <br />
+                            <span>Long Nguyễn</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
             <div className="card__body">
-                <input className="create-input"
-                    type="text"
-                    placeholder="Hãy nói gì đó về ảnh này" 
+                <textarea
+                    className="create-input"
+                    placeholder="Hãy nói gì đó về ảnh này..."
                     value={body}
-                    onChange={(e) => setBody(e.target.value)}    
-                />
+                    onChange={textAreaOnChange}
+                >
+                </textarea>
                 {
                     imgPreview &&
                     <img 
