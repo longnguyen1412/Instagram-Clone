@@ -18,14 +18,18 @@ router.get('/protected', middlewareLogin, (req, res) => {
 })
 
 router.post('/signup', (req, res) => {
-    const {name, email, password, selectedOption} = req.body
-    if(!email || !password || !name || !selectedOption) {
-        return res.status(422).json({error: "please add all the fields"})
+    const {name, nickname, email, password, selectedOption} = req.body
+    if(!email || !password || !name || !nickname || !selectedOption) {
+        return res.status(422).json({error: "Please add all the fields"})
     }
-    User.findOne({email: email})
+    User.findOne({ $or: [ {email: email}, {nickname: nickname} ] })
         .then(savedUser => {
             if(savedUser) {
-                return res.status(422).json({error: "User already exists with that email!"})
+                if(savedUser.email === email) {
+                    return res.status(422).json({error: "Email đã tồn tại!"})
+                } else {
+                    return res.status(422).json({error: "Tên người dùng đã tồn tại!"})
+                }
             }
             bcrypt.hash(password, 12)
                 .then(hashedPassword => {
@@ -41,6 +45,7 @@ router.post('/signup', (req, res) => {
                         email,
                         password: hashedPassword,
                         name,
+                        nickname,
                         selectedOption,
                         urlAvatar
                     })
@@ -76,8 +81,8 @@ router.post('/login', (req, res) => {
                 .then(doMatch => {
                     if(doMatch) {
                         const token = jwt.sign({_id: saveUser._id}, JWT_SECRET)
-                        const {_id, name, email, followers, following, urlAvatar} = saveUser
-                        return res.json({token, user: {_id, name, urlAvatar}})
+                        const {_id, name, nickname, urlAvatar} = saveUser
+                        return res.json({token, user: {_id, name, nickname, urlAvatar}})
                     }
                     else {
                         return res.status(422).json({error: "Invalid Email or Password"})

@@ -68,14 +68,13 @@ const CreatePost = () => {
         data.append("cloud_name", "cnq")
 
         //Post ảnh lên cloudinary
-        fetch("/apihttps://api.cloudinary.com/v1_1/ig-clone-44/image/upload", {
+        fetch("https://api.cloudinary.com/v1_1/ig-clone-44/image/upload", {
             method: "post",
             body: data,
         })
             .then(res => res.json())
             .then(data => {
-                console.log(data)
-                createPost(data.url)
+                createPost(data.secure_url)
             })
             .catch(err => {
                 console.log(err)
@@ -118,8 +117,8 @@ const CreatePost = () => {
                             <img src={user.urlAvatar} alt="bug" />
                         </div>
                         <div className="info">
-                            <b>{user.name}</b> <br />
-                            <span>Long Nguyễn</span>
+                            <b>{user.nickname}</b> <br />
+                            <span>{user.name}</span>
                         </div>
                     </div>
                 </div>

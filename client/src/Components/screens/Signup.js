@@ -8,6 +8,7 @@ const Signup = () => {
     const { state } = useContext(UserContext)
     const history = useHistory();
     const [name, setName] = useState("")
+    const [nickname, setNickname] = useState("")
     const [password, setPassword] = useState("")
     const [email, setEmail] = useState("")
     const [selectedOption, setSelectedOption] = useState("Nam")
@@ -19,7 +20,7 @@ const Signup = () => {
             return
         }
 
-        if(!name || !email || !password) {
+        if(!name || !email || !password || !nickname) {
             M.toast({ html: "Please add all the fields", classes: "#c62828 red darken-3" })
             return
         }
@@ -31,6 +32,7 @@ const Signup = () => {
             },
             body: JSON.stringify({
                 name,
+                nickname,
                 email,
                 password,
                 selectedOption
@@ -60,17 +62,22 @@ const Signup = () => {
         <div className="card card-signup">
             <h1>Instagram</h1>
             <input
-                className="input-name"
+                type="email"
+                placeholder="Email"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+            />
+            <input
                 type="text"
-                placeholder="Your name"
+                placeholder="Tên đầy đủ"
                 value={name}
                 onChange={(e) => setName(e.target.value)}
             />
             <input
-                type="email"
-                placeholder="Your email"
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
+                type="text"
+                placeholder="Tên người dùng"
+                value={nickname}
+                onChange={(e) => setNickname(e.target.value)}
             />
             <input
                 type="password"
@@ -78,7 +85,7 @@ const Signup = () => {
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
             />
-            <div>
+            <div className="select-gender">
                 <label>Giới tính</label>
                 <label>
                     <input className="with-gap" name="group1" type="radio" 
@@ -94,7 +101,7 @@ const Signup = () => {
                         checked={selectedOption === "Nu"}
                         onChange={onValueChange}
                     />
-                    <span>Nu</span>
+                    <span>Nữ</span>
                 </label>
                 <label>
                     <input class="with-gap" name="group1" type="radio" 

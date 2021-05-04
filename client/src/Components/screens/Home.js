@@ -19,7 +19,7 @@ const Home = () => {
     const [cmtIndex, setCmtIndex] = useState(null)
 
     useEffect(() => {
-        fetch('/api/allpost', {
+        fetch('/api/subposts', {
             headers: {
                 "Authorization": "Bearer " + localStorage.getItem("jwt")
             }

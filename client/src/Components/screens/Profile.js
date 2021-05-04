@@ -41,7 +41,8 @@ const Profile = () => {
                                 <span><Link to="/changeAvatar"><i className="fas fa-camera"></i></Link></span>
                             </div>
                             <div className="thong-tin">
-                                <h4>{user.name}</h4>
+                                <h4>{user.nickname}</h4>
+                                <h6>{user.name}</h6>
                                 <div className="so-luong">
                                     <h6>{myPosts.length} posts</h6>
                                     <h6>{user.followers.length} followers</h6>

@@ -23,10 +23,6 @@
     box-sizing: border-box !important;
 }
 
-.input-name {
-    border-right: none;
-}
-
 .input-name:focus {
     border-right: none;
 }
@@ -37,4 +33,10 @@
     color: white;
     font-size: 100%;
     font-weight: 600;
+}
+
+.select-gender {
+    margin-top: 20px;
+    display: flex;
+    justify-content: space-around;
 }

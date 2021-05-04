@@ -27,9 +27,9 @@ require('./models/post')
 app.use(cors())             // cho phép truy cập chéo
 app.use(express.json())     // giúp đọc dữ liệu trong req.body
 
-app.use(require('/api/', './routes/auth'))
-app.use(require('/api/', './routes/post'))
-app.use(require('/api/', './routes/user'))
+app.use('/api/', require('./routes/auth'))
+app.use('/api/', require('./routes/post'))
+app.use('/api/', require('./routes/user'))
 
 if(process.env.NODE_ENV === "production") {
     app.use(express.static('build'))

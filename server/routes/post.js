@@ -73,6 +73,19 @@ router.get('/allPost', middlewareLogin, (req, res) => {         //Trả về t�
         })
 })
 
+router.get('/subposts', middlewareLogin, (req, res) => {         //Trả về các post của người đang theo dõi khi load trang home
+    Post.find({postedBy: {$in: [ ...req.user.following, req.user._id ]} })
+        .populate("postedBy", "_id name urlAvatar")
+        .populate("comments.postedBy", "_id name")
+        .then(posts => {
+            return res.status(200).json(posts.reverse())
+        })
+        .catch(err => {
+            console.log(err)
+            return res.status(422).json({error: err})
+        })
+})
+
 router.get('/myPosts', middlewareLogin, (req, res) => {     //Trả về mảng các post của user đang đăng nhập
     var id = req.user.id
     Post.find({ postedBy: id })
