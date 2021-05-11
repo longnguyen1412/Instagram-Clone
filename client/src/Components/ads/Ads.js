@@ -1,7 +1,111 @@
-import React from 'react'
+import React, {useEffect, useState, useContext} from 'react'
 import './Ads.css'
+import { UserContext } from '../../App'
 
-const Ads = ()=>{
+
+const User = (props) => {
+    const { state } = useContext(UserContext)
+    const [isFollow, setIsFollow] = useState(props.followers.includes(state._id))
+
+    const theoDoiOnClick = (e) => {
+        fetch('/api/follow', {
+            method: "put",
+            headers: {
+                "Content-Type": "application/json",
+                "Authorization": "Bearer " + localStorage.getItem('jwt')
+            },
+            body: JSON.stringify({
+                followId: props._id
+            })
+        })
+            .then(res => res.json())
+            .then(user => {
+                if(user) {
+                    if(user.error) {
+                        console.log("Follow Error!")
+                    } else {
+                        console.log("Follow success!")
+                    }
+                } else {
+                    console.log("Follow Error!")
+                }
+            })
+            .catch(err => {
+                console.log(err)
+            })
+
+        setIsFollow(true)
+    }
+
+    const boTheoDoiOnClick = (e) => {
+        fetch('/api/unfollow', {
+            method: "put",
+            headers: {
+                "Content-Type": "application/json",
+                "Authorization": "Bearer " + localStorage.getItem('jwt')
+            },
+            body: JSON.stringify({
+                unFollowId: props._id
+            })
+        })
+            .then(res => res.json())
+            .then(user => {
+                if(user) {
+                    if(user.error) {
+                        console.log("Unfollow Error!")
+                    } else {
+                        console.log("Unfollow success!")
+                    }
+                } else {
+                    console.log("Unfollow Error!")
+                }
+            })
+            .catch(err => {
+                console.log(err)
+            })
+
+        setIsFollow(false)
+    }
+
+    return (
+        <div className="goiY">
+            <div className="person">
+                <div className="avatar">
+                    <img src={props.urlAvatar} alt="load..." />
+                </div>
+                <div className="info">
+                    <b>{props.nickname}</b> <br />
+                    <span>{props.name}</span>
+                </div>
+            </div>
+            {
+                isFollow ?
+                    <div className="bo-theo-doi" onClick={boTheoDoiOnClick}>Bỏ theo dõi</div>
+                :
+                    <div className="theoDoi" onClick={theoDoiOnClick}>Theo dõi</div>
+            }
+        </div>
+    )
+}
+
+const Ads = () => {
+    const [users, setUsers] = useState(null)
+
+    useEffect(() => {
+        fetch('/api/randomuser?amount=3', {
+            method: 'get',
+            headers: {
+                "Content-Type": "application/json",
+                "Authorization": "Bearer " + localStorage.getItem("jwt")
+            }
+        })
+            .then(data => data.json())
+            .then(users => {
+                setUsers(users)
+            })
+            .catch(err => console.log(err))
+    }, [])
+
     return(
         <div className="Ads">
             <div className="personal-page">
@@ -57,42 +161,13 @@ const Ads = ()=>{
                     <div>Gợi ý cho bạn</div>
                     <div>Xem tất cả</div>
                 </div>
-                <div className="goiY">
-                    <div className="person">
-                        <div className="avatar">
-                            <img src="img/avtThao.jpg" alt="bug" />
-                        </div>
-                        <div className="info">
-                            <b>thao.106520</b> <br />
-                            <span>Bạn bè trên Facebook</span>
-                        </div>
-                    </div>
-                    <div className="theoDoi">Theo dõi</div>
-                </div>
-                <div className="goiY">
-                    <div className="person">
-                        <div className="avatar">
-                            <img src="img/avtThao.jpg" alt="bug" />
-                        </div>
-                        <div className="info">
-                            <b>thao.106520</b> <br />
-                            <span>Bạn bè trên Facebook</span>
-                        </div>
-                    </div>
-                    <div className="theoDoi">Theo dõi</div>
-                </div>
-                <div className="goiY">
-                    <div className="person">
-                        <div className="avatar">
-                            <img src="img/avtThao.jpg" alt="bug" />
-                        </div>
-                        <div className="info">
-                            <b>thao.106520</b> <br />
-                            <span>Bạn bè trên Facebook</span>
-                        </div>
-                    </div>
-                    <div className="theoDoi">Theo dõi</div>
-                </div>
+                {
+                    users
+                    &&
+                    users.map(user => {
+                        return <User {...user} key={user._id}></User>
+                    })
+                }
             </div>
             <div className="gioiThieu">
                 <ul>

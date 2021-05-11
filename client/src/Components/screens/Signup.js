@@ -50,7 +50,6 @@ const Signup = () => {
     }
 
     const onValueChange = (e) => {
-        console.log(e.target.value)
         setSelectedOption(e.target.value)
     }
 
@@ -104,7 +103,7 @@ const Signup = () => {
                     <span>Nữ</span>
                 </label>
                 <label>
-                    <input class="with-gap" name="group1" type="radio" 
+                    <input className="with-gap" name="group1" type="radio" 
                         value="Khac"
                         checked={selectedOption === "Khac"}
                         onChange={onValueChange}

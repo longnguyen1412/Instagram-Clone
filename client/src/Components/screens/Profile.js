@@ -44,21 +44,25 @@ const Profile = () => {
                                 <h4>{user.nickname}</h4>
                                 <h6>{user.name}</h6>
                                 <div className="so-luong">
-                                    <h6>{myPosts.length} posts</h6>
-                                    <h6>{user.followers.length} followers</h6>
-                                    <h6>{user.following.length} following</h6>
+                                    <h6>{myPosts.length} bài viết</h6>
+                                    <h6>{user.followers.length} người theo dõi</h6>
+                                    <h6>Đang theo dõi {user.following.length} người dùng</h6>
                                 </div>
                             </div>
                         </div>
 
                         <div className="gallery">
+                            <div className="row">
                             {
                                 myPosts.map(myPost => {
                                     return (
-                                        <img className="item" src={myPost.photoUrl} alt="load error" />
+                                        <div className="col s12 m6 l4">
+                                            <img className="item" src={myPost.photoUrl } key={myPost._id} alt="load error" />
+                                        </div>
                                     )
                                 })
                             }
+                            </div>
                         </div>
                     </div>
                     :

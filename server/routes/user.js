@@ -109,4 +109,24 @@ router.put('/unfollow', middlewareLogin, (req, res) => {
         })
 })
 
+router.get('/randomuser', middlewareLogin, (req, res) => {
+    const {amount} = req.query
+    const getRandomNumber = (min, max) => {
+        return Math.floor(Math.random() * (max+1 - min) + min)
+    }
+
+    User.find({ _id: {$nin: [...req.user.following, req.user._id] } })   //name nickname urlAvatar _id
+        .select("-password")
+        .then(users => {
+            var numberRandom = getRandomNumber(0, users.length - amount)
+            var end = numberRandom + parseInt(amount)
+            var newUsers = users.slice(numberRandom, end)
+            console.log(numberRandom)
+            return res.status(200).json(newUsers)
+        })
+        .catch(err => {
+            console.log("Lỗi get Random User!", err)
+        })
+})
+
 module.exports = router
