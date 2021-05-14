@@ -1,10 +1,14 @@
-import React, { useState } from 'react'
+import React, { useState, useContext } from 'react'
 import {Link} from 'react-router-dom'
 
+import { UserContext } from '../../App'
 import "../screens_css/Modal.css"
 
 const Modal = (props) => {
+    const {state} = useContext(UserContext)
     const [onMessageDelete, setOnMessegeDelete] = useState(false)
+    const [isFollowing, setIsFollowing] = useState( props.postFocus.postedBy.followers.includes(state._id) )
+
     const closeModal = () => {
         props.setOnModal(false)
     }
@@ -12,6 +16,52 @@ const Modal = (props) => {
     const onClickDelete = () => {
         props.deletePost(props.idFocus)
         closeModal()
+    }
+
+    const followUser = () => {
+        fetch('/api/follow', {
+            method: "put",
+            headers: {
+                "Content-Type": "application/json",
+                "Authorization": "Bearer " + localStorage.getItem('jwt')
+            },
+            body: JSON.stringify({
+                followId: props.postFocus.postedBy._id
+            })
+        })
+            .then(res => res.json())
+            .then(user => {
+                return
+            })
+            .catch(err => {
+                console.log(err)
+            })
+
+        setIsFollowing(true)
+    }
+
+    const unFollowUser = () => {
+        fetch('/api/unfollow', {
+            method: "put",
+            headers: {
+                "Content-Type": "application/json",
+                "Authorization": "Bearer " + localStorage.getItem('jwt')
+            },
+            body: JSON.stringify({
+                unFollowId: props.postFocus.postedBy._id
+            })
+        })
+            .then(res => res.json())
+            .then(user => {
+                if(user.error) {
+                    return console.log(user.error)
+                }
+            })
+            .catch(err => {
+                console.log(err)
+            })
+
+        setIsFollowing(false)
     }
 
     return (
@@ -44,7 +94,13 @@ const Modal = (props) => {
                                 <li key="update"><Link to={"/updatepost/" + props.idFocus}>Chỉnh sửa bài viết</Link></li>
                             ]
                             :
-                            <li className="warnning">Bỏ theo dõi</li>
+                            (
+                                isFollowing ?
+                                    <li className="bo-theo-doi" onClick={unFollowUser}>Bỏ theo dõi</li>
+                                :
+                                    <li className="theo-doi" onClick={followUser}>Theo dõi</li>
+                            )
+                                
                         }
                         <li>Chia sẻ</li>
                         <li onClick={closeModal}>Huỷ</li>

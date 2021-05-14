@@ -16,6 +16,7 @@ const Home = () => {
     const [onCommentModal, setOnCommentModal] = useState(false)
     const [isPostedByUser, setIsPostedByUser] = useState(false)
     const [idFocus, setIdFocus] = useState("")
+    const [postFocus, setpostFocus] = useState({})
     const [cmtIndex, setCmtIndex] = useState(null)
 
     useEffect(() => {
@@ -182,8 +183,11 @@ const Home = () => {
             })
     }
 
-    const dotOnClick = (postedById, id) => {
+    const dotOnClick = (post) => {
+        const id = post._id
+        const postedById = post.postedBy._id
         setIdFocus(id)
+        setpostFocus(post)
         if (postedById === state._id) {
             setIsPostedByUser(true)
         } else {
@@ -227,7 +231,7 @@ const Home = () => {
                                                 post.title && <span>{post.title}</span>
                                             }
                                         </div>
-                                        <i className="fas fa-ellipsis-h" onClick={() => dotOnClick(post.postedBy._id, post._id)}></i>
+                                        <i className="fas fa-ellipsis-h" onClick={() => dotOnClick(post)}></i>
                                     </div>
                                     <div className="card-image" onDoubleClick={() => ImageOnDoubleClick(post._id)}>
                                         <img src={post.photoUrl} alt="load err" />
@@ -293,6 +297,7 @@ const Home = () => {
                         isPostedByUser={isPostedByUser}
                         deletePost={deletePost}
                         idFocus={idFocus}
+                        postFocus={postFocus}
                     >
                     </Modal>
                 }

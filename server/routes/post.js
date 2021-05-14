@@ -62,7 +62,7 @@ router.post('/changeAvatar', middlewareLogin, (req, res) => {                 //
 
 router.get('/allPost', middlewareLogin, (req, res) => {         //Trả về tất cả các post trong database khi load trang home
     Post.find()
-        .populate("postedBy", "_id name urlAvatar")
+        .populate("postedBy", "_id name urlAvatar followers following")
         .populate("comments.postedBy", "_id name")
         .then(posts => {
             return res.status(200).json(posts.reverse())
@@ -75,10 +75,10 @@ router.get('/allPost', middlewareLogin, (req, res) => {         //Trả về t�
 
 router.get('/subposts', middlewareLogin, (req, res) => {         //Trả về các post của người đang theo dõi khi load trang home
     Post.find({postedBy: {$in: [ ...req.user.following, req.user._id ]} })
-        .populate("postedBy", "_id name urlAvatar")
+        .populate("postedBy", "_id name urlAvatar followers following")
         .populate("comments.postedBy", "_id name")
         .then(posts => {
-            return res.status(200).json(posts.reverse())
+            return res.status(200).json(posts.reverse().slice(0, 10))
         })
         .catch(err => {
             console.log(err)
@@ -101,7 +101,7 @@ router.get('/myPosts', middlewareLogin, (req, res) => {     //Trả về mảng 
 
 router.put('/like', middlewareLogin, (req, res) => {        //like post: thêm id người dùng vào mảng likes của post
     Post.findById(req.body.postId)
-        .populate("postedBy", "_id name urlAvatar")
+        .populate("postedBy", "_id name urlAvatar followers following")
         .populate("comments.postedBy", "_id name")
         .then(post => {
             if (post.likes.includes(req.user.id)) {           //Nếu người dùng đã like thì trả về luôn post
@@ -112,7 +112,7 @@ router.put('/like', middlewareLogin, (req, res) => {        //like post: thêm i
                 }, {
                     new: true
                 })
-                    .populate("postedBy", "_id name urlAvatar")
+                    .populate("postedBy", "_id name urlAvatar followers following")
                     .populate("comments.postedBy", "_id name")
                     .exec((err, result) => {
                         if (err) {
@@ -131,7 +131,7 @@ router.put('/unlike', middlewareLogin, (req, res) => {              //Xoá id ng
     }, {
         new: true
     })
-        .populate("postedBy", "_id name urlAvatar")
+        .populate("postedBy", "_id name urlAvatar followers following")
         .populate("comments.postedBy", "_id name")
         .exec((err, result) => {
             if (err) {
@@ -157,7 +157,7 @@ router.put('/comment', middlewareLogin, (req, res) => {         //Thêm comment 
     }, {
         new: true
     })
-        .populate("postedBy", "_id name urlAvatar")
+        .populate("postedBy", "_id name urlAvatar followers following")
         .populate("comments.postedBy", "_id name")
         .exec((err, result) => {
             if (err) {
@@ -172,7 +172,7 @@ router.put('/uncomment', middlewareLogin, (req, res) => {
     const {postId, commentIndex} = req.body
 
     Post.findById(postId)
-    .populate("postedBy", "_id name urlAvatar")
+    .populate("postedBy", "_id name urlAvatar followers following")
     .populate("comments.postedBy", "_id name")
     .then(post => {
         if(post) {

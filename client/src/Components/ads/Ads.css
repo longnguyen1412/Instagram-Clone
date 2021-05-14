@@ -111,6 +111,7 @@
     font-weight: 600;
     margin-right: 15px;
     color: #0095f6;
+    cursor: pointer;
 }
 
 .goiY .bo-theo-doi {
@@ -118,6 +119,7 @@
     font-weight: 600;
     margin-right: 15px;
     color: #f51331;
+    cursor: pointer;
 }
 
 .gioiThieu {

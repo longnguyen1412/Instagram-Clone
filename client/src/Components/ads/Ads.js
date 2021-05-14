@@ -125,7 +125,7 @@ const Ads = () => {
                 <div className="tin">
                     <div className="border-avatar">
                         <div className="avatar">
-                            <img src="img/avt-diep.jpg" alt="bug" />
+                            <img src="img/1.jpg" alt="bug" />
                         </div>
                     </div>
                     <div className="info">
@@ -136,7 +136,7 @@ const Ads = () => {
                 <div className="tin">
                     <div className="border-avatar">
                         <div className="avatar">
-                            <img src="img/KY-avatar.jpg" alt="bug" />
+                            <img src="img/2.jpg" alt="bug" />
                         </div>
                     </div>
                     <div className="info">
@@ -147,7 +147,7 @@ const Ads = () => {
                 <div className="tin">
                     <div className="border-avatar">
                         <div className="avatar">
-                            <img src="img/la.jpg" alt="bug" />
+                            <img src="img/3.jpg" alt="bug" />
                         </div>
                     </div>
                     <div className="info">

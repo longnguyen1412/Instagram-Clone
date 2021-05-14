@@ -42,6 +42,11 @@ router.get('/user/:id', middlewareLogin, (req, res) => {
 })
 
 router.put('/follow', middlewareLogin, (req, res) => {
+    //Kiểm tra xem đã follow chưa
+    if(req.user.following.includes(req.body.followId)) {
+        return res.status(200).json({isFollowing: true})
+    }
+    
     User.findByIdAndUpdate(req.body.followId, {                                 //Tìm user được theo dõi rồi thêm
         $push: {followers: req.user.id}                                         //id người theo dõi vào mảng followers
     },{
@@ -121,7 +126,6 @@ router.get('/randomuser', middlewareLogin, (req, res) => {
             var numberRandom = getRandomNumber(0, users.length - amount)
             var end = numberRandom + parseInt(amount)
             var newUsers = users.slice(numberRandom, end)
-            console.log(numberRandom)
             return res.status(200).json(newUsers)
         })
         .catch(err => {

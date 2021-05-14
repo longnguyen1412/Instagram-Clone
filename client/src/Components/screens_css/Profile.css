@@ -37,6 +37,39 @@
     color: #eee;
 }
 
+.thong-tin h4 {
+    margin: 15px 0;
+}
+
+.thong-tin .follow-container {
+    display: flex;
+    align-items: center;
+}
+
+.thong-tin .btnFollow {
+    margin-left: 10%;
+    padding: 4px 20px;
+    height: fit-content;
+    width: fit-content;
+    border: none;
+    border-radius: 30px;
+    font-weight: 700;
+    color: #eee;
+}
+
+.thong-tin .btnFollow:hover {
+    box-shadow: 0 0 5px 3px rgb(221, 214, 214);
+    cursor: pointer;
+}
+
+.thong-tin .btn-follow {
+    background-color: rgb(47, 174, 224);
+}
+
+.thong-tin .btn-unfollow {
+    background-color: rgb(211, 63, 88);
+}
+
 .thong-tin .so-luong {
     margin: 10px 0 0;
     display: flex;
@@ -59,16 +92,16 @@
 
 .gallery .item {
     width: 100%;
-    margin-bottom: 20px;
     object-fit: cover;
     height: 100%;
     border-radius: 4px;
     padding: 0;
-    margin: 15px;
     box-shadow: 0 0 5px 3px rgb(212, 212, 212),
                 0 0 10px 3px rgba(214, 211, 211, 0.7);
 }
 
 .gallery .col {
-    height: max-content;
+    height: 100%;
+    max-height: 360px;
+    margin-bottom: 20px;
 }

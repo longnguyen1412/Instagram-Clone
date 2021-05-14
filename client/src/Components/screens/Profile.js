@@ -56,8 +56,8 @@ const Profile = () => {
                             {
                                 myPosts.map(myPost => {
                                     return (
-                                        <div className="col s12 m6 l4">
-                                            <img className="item" src={myPost.photoUrl } key={myPost._id} alt="load error" />
+                                        <div className="col s12 m6 l4" key={myPost._id}>
+                                            <img className="item" src={myPost.photoUrl } alt="load error" />
                                         </div>
                                     )
                                 })

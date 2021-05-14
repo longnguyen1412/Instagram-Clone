@@ -54,8 +54,13 @@
     border-bottom: none;
 }
 
-.modal-post .warnning {
+.modal-post .bo-theo-doi {
     color: rgb(237,73,86);
+    font-weight: 700;
+}
+
+.modal-post .theo-doi {
+    color: #0095f6;
     font-weight: 700;
 }
 
