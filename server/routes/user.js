@@ -133,4 +133,21 @@ router.get('/randomuser', middlewareLogin, (req, res) => {
         })
 })
 
+
+router.get('/searchUser',middlewareLogin, (req, res) => {
+    const {name} = req.query
+    var nameRegex = new RegExp(name, "i")
+    User.find({$or: [
+        {nickname: nameRegex},
+        {name: nameRegex}
+    ]})
+        .then(users => {
+            return res.status(200).json(users)
+        })
+        .catch(err => {
+            console.log(err)
+            return res.status(422).json({error: "Lỗi tìm kiếm trong database!"})
+        })
+})
+
 module.exports = router

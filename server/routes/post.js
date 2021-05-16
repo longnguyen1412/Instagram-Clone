@@ -202,11 +202,7 @@ router.get('/post/:postId', middlewareLogin, (req, res) => {
         .populate("postedBy", "_id name")
         .then(post => {
             if(post) {
-                if(post.postedBy._id.toString() === req.user.id.toString()) {       //Nếu đúng bài viết của người dùng mới trả về
-                    return res.status(200).json(post)
-                }else {
-                    return res.status(422).json({error: "Không thể load post!"})
-                }
+                return res.status(200).json(post)
             }else {
                 return res.status(422).json({error: "Không thể load post!"})
             }
