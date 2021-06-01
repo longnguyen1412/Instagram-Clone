@@ -78,7 +78,7 @@ router.get('/subposts', middlewareLogin, (req, res) => {         //Trả về c�
         .populate("postedBy", "_id name urlAvatar followers following")
         .populate("comments.postedBy", "_id name")
         .then(posts => {
-            return res.status(200).json(posts.reverse().slice(0, 10))
+            return res.status(200).json(posts.reverse().slice(0, 20))
         })
         .catch(err => {
             console.log(err)

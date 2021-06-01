@@ -1,4 +1,5 @@
 import React, {useEffect, useState, useContext} from 'react'
+import {Link} from "react-router-dom"
 import './Ads.css'
 import { UserContext } from '../../App'
 
@@ -74,7 +75,9 @@ const User = (props) => {
                     <img src={props.urlAvatar} alt="load..." />
                 </div>
                 <div className="info">
-                    <b>{props.nickname}</b> <br />
+                    <Link to={`/profile/${props._id}`}>
+                        <b>{props.nickname}</b>
+                    </Link> <br />
                     <span>{props.name}</span>
                 </div>
             </div>

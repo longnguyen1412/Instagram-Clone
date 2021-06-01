@@ -66,3 +66,81 @@ h6 {
     z-index: 10;
     margin: 0;
 }
+
+.container-search {
+    position: relative;
+    right: 30%;
+    width: 250px;
+}
+
+.search-user {
+    font-size: 14px !important;
+    color: #555 !important;
+    border: 1px solid #ccc !important;
+    width: 180px !important;
+    height: 25px !important;
+    margin-left: 35px !important;
+    padding: 0 10px !important;
+    border-radius: 3px !important;
+    background-color: #fafafa !important;
+    box-sizing: border-box !important;
+}
+
+.search-user::placeholder {
+    text-align: center;
+    font-weight: 300;
+    color: rgba(100, 100, 100, 1) !important;
+}
+
+.search-user:focus {
+    border-bottom: 1px solid #ccc !important;
+    box-shadow: unset !important;
+}
+
+.container-user {
+    width: 250px;
+    height: 300px;
+    border: 1px solid #ccc;
+    background-color: #fff;
+    border-radius: 4px;
+    display: none;
+    overflow-y: scroll;
+    position: relative;
+    z-index: 21;
+}
+
+.container-user.focus {
+    display: block !important;
+}
+
+.backgroud-user {
+    position: fixed;
+    top:0;
+    left: 0;
+    width: 100vw;
+    height: 100vw;
+    background-color: rgba(100, 100, 100, 0);
+    z-index: 20;
+    display: none;
+}
+
+.backgroud-user.focus {
+    display: block;
+}
+
+.container-user .person {
+    width: 100%;
+    line-height: 20px !important;
+    padding: 10px 15px;
+}
+
+.container-user .person .info {
+    margin-left: 10px;
+}
+
+.avatar-search img {
+    height: 36px;
+    width: 36px;
+    object-fit: cover;
+    border-radius: 50%;
+}
