@@ -31,13 +31,14 @@ app.use('/api/', require('./routes/auth'))
 app.use('/api/', require('./routes/post'))
 app.use('/api/', require('./routes/user'))
 
-if(process.env.NODE_ENV === "production") {
-    app.use(express.static('../client/build'))
+// if(process.env.NODE_ENV === "production") {
+    app.use(express.static('client/build'))
     const path = require('path')
     app.get("*", (req, res) => {
-        res.sendFile(path.resolve(__dirname, '../client/build', 'index.html'))
+        // console.log("chạy qua đây rồi: ", path.resolve(__dirname, '../client/build', 'index.html'))
+        res.sendFile(path.resolve(__dirname, 'client/build', 'index.html'))
     })
-}
+// }
 
 app.listen(PORT, () => {
     console.log("Server is running on ", PORT)
